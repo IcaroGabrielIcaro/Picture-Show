@@ -1,0 +1,6 @@
+/env
+/PictureShow/api/migrations
+/PictureShow/api/__pycache__
+/PictureShow/auths/migrations
+/PictureShow/auths/__pycache__
+/PictureShow/PictureShow/__pycache__
