@@ -18,6 +18,8 @@ Protótipos das telas desenvolvidos no Figma, incluindo:
 - Perfil
 - Notificações
 
+<img width="800" alt="figma" src="https://github.com/user-attachments/assets/71264706-9864-457a-a690-a86b8cf315cd" />
+
 ## Frontend
 
 Aplicação mobile desenvolvida com:
