@@ -2,8 +2,6 @@
 
 Aplicação de rede social simples desenvolvida como atividade acadêmica, permitindo que usuários realizem postagens, curtam conteúdos e sigam outros usuários.
 
----
-
 ## Funcionalidades
 
 - Criar postagens
@@ -12,8 +10,6 @@ Aplicação de rede social simples desenvolvida como atividade acadêmica, permi
 - Visualizar feed
 - Notificações (estrutura inicial)
 
----
-
 ## Protótipo
 
 Protótipos das telas desenvolvidos no Figma, incluindo:
@@ -21,8 +17,6 @@ Protótipos das telas desenvolvidos no Figma, incluindo:
 - Feed
 - Perfil
 - Notificações
-
----
 
 ## Frontend
 
@@ -41,13 +35,10 @@ lib/
     features/
 ```
 
-
 ### Recursos utilizados
 
 - Consumo de API REST
 - Persistência local de dados (cache simples no dispositivo)
-
----
 
 ## Backend
 
@@ -64,8 +55,6 @@ API desenvolvida com:
 - `/followers/` → Seguidores  
 
 > A API é responsável pelo armazenamento principal dos dados e regras de negócio.
-
----
 
 ## Persistência de Dados
 
