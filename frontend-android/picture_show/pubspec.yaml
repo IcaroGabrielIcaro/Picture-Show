@@ -34,6 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.2.4
 
 dev_dependencies:
   flutter_test:
@@ -52,10 +53,42 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
+  
+  assets:
+    - lib/assets/icons/
+
+  fonts:
+    - family: JosefinSlab
+      fonts:
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-Thin.ttf
+          weight: 100
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-ExtraLight.ttf
+          weight: 200
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-Light.ttf
+          weight: 300
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-Regular.ttf
+          weight: 400
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-Medium.ttf
+          weight: 500
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-SemiBold.ttf
+          weight: 600
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-Bold.ttf
+          weight: 700
+
+        # Itálicos
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-Italic.ttf
+          style: italic
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: lib/assets/fonts/josefinslab/JosefinSlab-BoldItalic.ttf
+          weight: 700
+          style: italic
+
+    - family: OoohBaby
+      fonts:
+        - asset: lib/assets/fonts/ooohbaby/OoohBaby-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
