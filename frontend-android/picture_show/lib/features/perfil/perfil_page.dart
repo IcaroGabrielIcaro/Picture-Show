@@ -8,21 +8,50 @@ class PerfilPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
+      backgroundColor: const Color(0xFFFFFEEF),
+
       body: SafeArea(
-        child: Column(
-          children: const [
-            PerfilHeader(),
-            Divider(),
 
-            PerfilInfoSection(),
+        child: SingleChildScrollView(
 
-            Divider(),
+          child: Padding(
 
-            Expanded(
-              child: PerfilPostsGrid(),
+            padding: const EdgeInsets.all(16),
+
+            child: Column(
+
+              crossAxisAlignment: CrossAxisAlignment.start,
+
+              children: const [
+                PerfilHeader(),
+
+                SizedBox(height: 12),
+
+                Divider(
+                  color: Color(0xFF3C3535),
+                  thickness: 1,
+                ),
+
+                SizedBox(height: 12),
+
+                PerfilInfoSection(),
+
+                SizedBox(height: 12),
+
+                Divider(
+                  color: Color(0xFFD0D0D0),
+                  thickness: 1,
+                ),
+
+                SizedBox(height: 12),
+
+                PerfilPostsGrid(),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

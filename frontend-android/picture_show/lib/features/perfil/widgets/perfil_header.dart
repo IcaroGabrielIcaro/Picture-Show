@@ -6,47 +6,38 @@ class PerfilHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
 
-      padding: const EdgeInsets.all(16.0),
+      children: [
+        IconButton(
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          onPressed: () {
+            print("Botão de voltar pressionado");
+          },
+          icon: SvgPicture.asset(
+            'lib/assets/icons/arrow_back.svg',
+            width: 32,
+            height: 32,
+          ),
+        ),
 
-      child: Row(
+        const SizedBox(width: 10),
 
-        crossAxisAlignment: CrossAxisAlignment.center,
+        Transform.translate(
+          offset: const Offset(0, 3),
 
-        children: [
-
-          IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            onPressed: () {
-              print("Botão de voltar pressionado");
-            },
-            icon: SvgPicture.asset(
-              'lib/assets/icons/arrow_back.svg',
-              width: 32,
-              height: 32,
+          child: const Text(
+            'Nicolas Cage',
+            style: TextStyle(
+              fontFamily: 'JosefinSlab',
+              fontSize: 32,
+              color: Color(0xFF3C3535),
             ),
           ),
-
-          const SizedBox(width: 10),
-
-          Transform.translate(
-
-            offset: const Offset(0, 3),
-
-            child: const Text(
-              'Nicolas Cage',
-              style: TextStyle(
-                fontFamily: 'JosefinSlab',
-                fontSize: 32,
-                color: Color(0xFF3C3535),
-              ),
-            ),
-          )
-          
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

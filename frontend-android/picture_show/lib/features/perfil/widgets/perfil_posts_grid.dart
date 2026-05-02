@@ -5,16 +5,48 @@ class PerfilPostsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final List<String> images = [
+      'https://picsum.photos/300?1',
+      'https://picsum.photos/300?2',
+      'https://picsum.photos/300?3',
+      'https://picsum.photos/300?4',
+      'https://picsum.photos/300?5',
+      'https://picsum.photos/300?6',
+      'https://picsum.photos/300?7',
+      'https://picsum.photos/300?8',
+      'https://picsum.photos/300?9',
+      'https://picsum.photos/300?10',
+      'https://picsum.photos/300?11',
+      'https://picsum.photos/300?12',
+    ];
+
     return GridView.builder(
-      itemCount: 6,
+
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: images.length,
+
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
+        crossAxisSpacing: 4,
+        mainAxisSpacing: 4,
+        childAspectRatio: 0.85,
       ),
+
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.all(2),
-          color: Colors.grey,
+
+        return Opacity(
+
+          opacity: 0.8,
+
+          child: Image.network(
+            images[index],
+            fit: BoxFit.cover,
+          ),
+
         );
+
       },
     );
   }
