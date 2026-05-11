@@ -93,10 +93,6 @@ class _BuscarHeaderState extends State<BuscarHeader> {
 
     return Container(
 
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-      ),
-
       decoration: BoxDecoration(
 
         border: Border.all(
@@ -110,9 +106,20 @@ class _BuscarHeaderState extends State<BuscarHeader> {
       child: Row(
         children: [
 
-          const Icon(
-            Icons.search,
-            color: Color(0xFF3C3535),
+          IconButton(
+
+            onPressed: handleSearch,
+
+            padding: EdgeInsets.zero,
+
+            constraints: const BoxConstraints(),
+
+            splashRadius: 20,
+
+            icon: const Icon(
+              Icons.search,
+              color: Color(0xFF3C3535),
+            ),
           ),
 
           const SizedBox(width: 10),
@@ -157,11 +164,17 @@ class _BuscarHeaderState extends State<BuscarHeader> {
 
           if (searchText.isNotEmpty)
 
-            GestureDetector(
+            IconButton(
 
-              onTap: clearSearch,
+              onPressed: clearSearch,
 
-              child: const Icon(
+              padding: EdgeInsets.zero,
+
+              constraints: const BoxConstraints(),
+
+              splashRadius: 20,
+
+              icon: const Icon(
                 Icons.close,
                 size: 20,
                 color: Color(0xFF3C3535),
