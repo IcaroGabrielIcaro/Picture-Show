@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'features/perfil/perfil_page.dart';
+import 'package:picture_show/core/routers/app_router.dart';
 
 // Função principal do app (pronto de entrada)
 void main() {
@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // build = método que constrói a interface
     // context = posição desse widget na árvore
-    return MaterialApp(
-      // Tela inicial do app
-      home: const PerfilPage(),
+    return MaterialApp.router(
+      // Gerenciador de rotas
+      routerConfig: appRouter,
     );
   }
 }
