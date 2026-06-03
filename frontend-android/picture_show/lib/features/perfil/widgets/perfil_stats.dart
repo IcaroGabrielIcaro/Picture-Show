@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/features/perfil/entities/profile.dart';
 
 class PerfilStats extends StatelessWidget {
+
   final bool isLargeScreen;
+  final Profile profile;
 
   const PerfilStats({
     super.key,
     required this.isLargeScreen,
+    required this.profile,
   });
 
   Widget buildItem(String label, String value) {
@@ -42,11 +46,11 @@ class PerfilStats extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
 
       children: [
-        buildItem('Fotos', '3'),
+        buildItem('Fotos', profile.posts.toString()),
         SizedBox(width: isLargeScreen ? 24 : 12),
-        buildItem('Seguidores', '7'),
+        buildItem('Seguidores', profile.followers.toString()),
         SizedBox(width: isLargeScreen ? 24 : 12),
-        buildItem('Seguindo', '9'),
+        buildItem('Seguindo', profile.following.toString()),
       ],
     );
   }

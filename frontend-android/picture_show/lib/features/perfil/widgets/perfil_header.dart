@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:picture_show/features/perfil/entities/profile.dart';
 
 class PerfilHeader extends StatelessWidget {
-  const PerfilHeader({super.key});
+
+  final Profile profile;
+
+  const PerfilHeader({
+    super.key,
+    required this.profile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +35,8 @@ class PerfilHeader extends StatelessWidget {
         Transform.translate(
           offset: const Offset(0, 3),
 
-          child: const Text(
-            'Nicolas Cage',
+          child: Text(
+            profile.name,
             style: TextStyle(
               fontFamily: 'JosefinSlab',
               fontSize: 32,

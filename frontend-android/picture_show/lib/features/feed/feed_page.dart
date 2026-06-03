@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/features/feed/widgets/feed_header.dart';
 import 'package:picture_show/features/feed/widgets/feed_post_card.dart';
+import '../feed/mock/posts_mock.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
@@ -16,24 +17,24 @@ class FeedPage extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                FeedHeader(),
+              children: [
+                const FeedHeader(),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-                Divider(
+                const Divider(
                   color: Color(0xFF3C3535),
                   thickness: 1,
                 ),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-                FeedPostCard(),
-
-                SizedBox(height: 12),
-
-                FeedPostCard(),
-              ],
+                ...postsMock.map(
+                  (post) => FeedPostCard(
+                    post: post,
+                  ),
+                ),
+              ]
             ),
           ),
         ),

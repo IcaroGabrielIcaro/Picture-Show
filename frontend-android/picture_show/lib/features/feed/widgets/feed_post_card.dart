@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:picture_show/features/feed/entities/post.dart';
 
 class FeedPostCard extends StatefulWidget {
-  const FeedPostCard({super.key});
+
+  final Post post;
+  
+  const FeedPostCard({
+    super.key,
+    required this.post,
+  });
 
   @override
   State<FeedPostCard> createState() => _FeedPostCardState();
@@ -10,8 +17,16 @@ class FeedPostCard extends StatefulWidget {
 
 class _FeedPostCardState extends State<FeedPostCard> {
 
-  bool isLiked = false;
-  int likes = 6;
+  late bool isLiked;
+  late int likes;
+
+  @override
+  void initState() {
+    super.initState();
+
+    isLiked = widget.post.isLiked;
+    likes = widget.post.likes;
+  }
 
   void toggleLike() {
 
@@ -45,7 +60,10 @@ class _FeedPostCardState extends State<FeedPostCard> {
 
               InkWell(
                 onTap: () {
-                  context.push('/perfil');
+                  context.push(
+                    '/perfil',
+                    extra: widget.post.author,
+                  );
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Row(
@@ -53,14 +71,14 @@ class _FeedPostCardState extends State<FeedPostCard> {
                     CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(
-                        'https://sm.ign.com/t/ign_pk/feature/t/the-15-bes/the-15-best-nicolas-cage-movies_rquu.1280.jpg',
+                        widget.post.author.photoUrl
                       ),
                     ),
 
                     const SizedBox(width: 10),
 
-                    const Text(
-                      'Nicolas Cage',
+                    Text(
+                      widget.post.author.name,
                       style: TextStyle(
                         fontFamily: 'JosefinSlab',
                         fontSize: 20,
@@ -71,8 +89,8 @@ class _FeedPostCardState extends State<FeedPostCard> {
                 ),
               ),
 
-              const Text(
-                'Há 3 horas',
+              Text(
+                widget.post.publishedAt,
                 style: TextStyle(
                   fontFamily: 'JosefinSlab',
                   fontSize: 14,
@@ -91,7 +109,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                'https://th.bing.com/th/id/R.a6bcea7c182c9f107d177b139a2df09a?rik=yqofBYM3m%2bphTw&riu=http%3a%2f%2fcuriosando708090.altervista.org%2fwp-content%2fuploads%2f2012%2f07%2fevanescence-copertina.jpg&ehk=lx5gNfArFuPftBIXVKQua%2bMgbIOnR8OoOvwcgeoVApc%3d&risl=&pid=ImgRaw&r=0',
+                widget.post.imageUrl,
                 height: 400,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -143,7 +161,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
               const SizedBox(height: 8),
 
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   style: TextStyle(
                     fontFamily: 'JosefinSlab',
                     fontSize: 16,
@@ -151,13 +169,13 @@ class _FeedPostCardState extends State<FeedPostCard> {
                   ),
                   children: [
                     TextSpan(
-                      text: 'Nicolas Cage ',
+                      text: '${widget.post.author.name} ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextSpan(
-                      text: 'Pense numa banda de caba macho',
+                      text: widget.post.description,
                     ),
                   ],
                 ),

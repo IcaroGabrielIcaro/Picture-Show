@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/features/perfil/entities/profile.dart';
 import 'widgets/perfil_header.dart';
 import 'widgets/perfil_info_section.dart';
 import 'widgets/perfil_posts_grid.dart';
 
 class PerfilPage extends StatelessWidget {
-  const PerfilPage({super.key});
+
+  final Profile profile;
+
+  const PerfilPage({
+    super.key,
+    required this.profile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +32,8 @@ class PerfilPage extends StatelessWidget {
 
               crossAxisAlignment: CrossAxisAlignment.start,
 
-              children: const [
-                PerfilHeader(),
+              children: [
+                PerfilHeader(profile: profile),
 
                 SizedBox(height: 12),
 
@@ -37,7 +44,7 @@ class PerfilPage extends StatelessWidget {
 
                 SizedBox(height: 12),
 
-                PerfilInfoSection(),
+                PerfilInfoSection(profile: profile),
 
                 SizedBox(height: 12),
 
@@ -48,7 +55,7 @@ class PerfilPage extends StatelessWidget {
 
                 SizedBox(height: 12),
 
-                PerfilPostsGrid(),
+                PerfilPostsGrid(profile: profile)
               ],
             ),
           ),

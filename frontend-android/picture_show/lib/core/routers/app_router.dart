@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:picture_show/core/layouts/main_layout.dart';
 import 'package:picture_show/features/buscar/buscar_page.dart';
 import 'package:picture_show/features/feed/feed_page.dart';
+import 'package:picture_show/features/perfil/entities/profile.dart';
 import 'package:picture_show/features/perfil/perfil_page.dart';
 
 // Instalando o GoRouter pelo comando 'flutter pub add go_router'
@@ -24,9 +25,17 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/perfil',
 
-      builder: (context, state) => const MainLayout(
-        child: PerfilPage(),
-      ),
+      builder: (context, state) {
+
+        final profile = state.extra as Profile;
+
+        return MainLayout(
+          child: PerfilPage(
+            profile: profile,
+          ),
+        );
+
+      },
     ),
 
     GoRoute(

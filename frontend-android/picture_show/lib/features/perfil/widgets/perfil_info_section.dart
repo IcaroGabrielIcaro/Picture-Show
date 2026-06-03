@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/features/perfil/entities/profile.dart';
 import 'perfil_stats.dart';
 
 class PerfilInfoSection extends StatelessWidget {
-  const PerfilInfoSection({super.key});
+
+  final Profile profile;
+
+  const PerfilInfoSection({
+    super.key,
+    required this.profile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +35,8 @@ class PerfilInfoSection extends StatelessWidget {
                   opacity: 0.8,
                   child: CircleAvatar(
                     radius: avatarRadius,
-                    backgroundImage: const NetworkImage(
-                      'https://hips.hearstapps.com/hmg-prod/images/gettyimages-1046482274-square.jpg?resize=1200:*',
+                    backgroundImage: NetworkImage(
+                      profile.photoUrl,
                     ),
                   ),
                 ),
@@ -42,7 +49,7 @@ class PerfilInfoSection extends StatelessWidget {
 
                     children: [
                       Text(
-                        'Nicolas Cage',
+                        profile.name,
 
                         style: TextStyle(
                           fontFamily: 'JosefinSlab', 
@@ -54,7 +61,7 @@ class PerfilInfoSection extends StatelessWidget {
                       ),
 
                       Text(
-                        'Ator muito massa que faz filmes surtados porque sim. Me dê motivos para ele não ter feito.',
+                        profile.bio,
 
                         style: TextStyle(
                           fontFamily: 'JosefinSlab',
@@ -70,7 +77,7 @@ class PerfilInfoSection extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            PerfilStats(isLargeScreen: isLargeScreen),
+            PerfilStats(isLargeScreen: isLargeScreen, profile: profile,),
 
             const SizedBox(height: 12),
 
