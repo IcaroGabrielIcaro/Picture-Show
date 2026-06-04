@@ -7,10 +7,18 @@ class PerfilInfoSection extends StatelessWidget {
   final Profile profile;
   final int totalPosts;
 
+  final String displayName;
+  final String displayBio;
+
+  final Future<void> Function()? onEditProfile;
+
   const PerfilInfoSection({
     super.key,
     required this.profile,
     required this.totalPosts,
+    required this.displayName,
+    required this.displayBio,
+    this.onEditProfile,
   });
 
   @override
@@ -25,7 +33,7 @@ class PerfilInfoSection extends StatelessWidget {
         final double avatarRadius = isLargeScreen ? 104 : 52;
         final double titleSize = isLargeScreen ? 32 : 24;
         final double descriptionSize = isLargeScreen ? 24 : 16;
-        final double buttonTextSize = isLargeScreen ? 24 : 18;
+        final double buttonTextSize = isLargeScreen ? 24 : 16;
 
         return Column(
 
@@ -54,7 +62,7 @@ class PerfilInfoSection extends StatelessWidget {
 
                     children: [
                       Text(
-                        profile.name,
+                        displayName,
 
                         style: TextStyle(
                           fontFamily: 'JosefinSlab', 
@@ -66,7 +74,7 @@ class PerfilInfoSection extends StatelessWidget {
                       ),
 
                       Text(
-                        profile.bio,
+                        displayBio,
 
                         style: TextStyle(
                           fontFamily: 'JosefinSlab',
@@ -94,14 +102,9 @@ class PerfilInfoSection extends StatelessWidget {
 
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-
-                  if (isMyProfile) {
-
-                  } else {
-
-                  }
-                },
+                onPressed: isMyProfile
+                  ? onEditProfile
+                  : () {},
 
                 style: ElevatedButton.styleFrom(
 

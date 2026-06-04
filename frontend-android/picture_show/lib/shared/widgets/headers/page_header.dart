@@ -5,10 +5,12 @@ import 'package:go_router/go_router.dart';
 class PageHeader extends StatelessWidget{
 
   final String nome;
+  final Widget? action;
 
   const PageHeader({
     super.key,
-    required this.nome
+    required this.nome,
+    this.action,
   });
 
   @override
@@ -17,6 +19,7 @@ class PageHeader extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.center,
 
       children: [
+
         IconButton(
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
@@ -34,18 +37,23 @@ class PageHeader extends StatelessWidget{
 
         const SizedBox(width: 10),
 
-        Transform.translate(
-          offset: const Offset(0, 3),
+        Expanded(
+          child: Transform.translate(
+            offset: const Offset(0, 3),
 
-          child: Text(
-            nome,
-            style: TextStyle(
-              fontFamily: 'JosefinSlab',
-              fontSize: 32,
-              color: Color(0xFF3C3535),
+            child: Text(
+              nome,
+              style: const TextStyle(
+                fontFamily: 'JosefinSlab',
+                fontSize: 32,
+                color: Color(0xFF3C3535),
+              ),
             ),
           ),
         ),
+
+        if (action != null) action!,
+
       ],
     );
   }
