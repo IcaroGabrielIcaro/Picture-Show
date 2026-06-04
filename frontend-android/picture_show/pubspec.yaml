@@ -58,6 +58,7 @@ flutter:
   
   assets:
     - lib/assets/icons/
+    - lib/assets/images/
 
   fonts:
     - family: JosefinSlab

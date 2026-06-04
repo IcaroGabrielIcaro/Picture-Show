@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:picture_show/features/feed/entities/post.dart';
+import 'package:picture_show/shared/entities/post.dart';
 
 class FeedPostCard extends StatefulWidget {
 
@@ -108,8 +108,8 @@ class _FeedPostCardState extends State<FeedPostCard> {
 
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                widget.post.imageUrl,
+              child: Image.asset(
+                widget.post.imagePath,
                 height: 400,
                 width: double.infinity,
                 fit: BoxFit.cover,

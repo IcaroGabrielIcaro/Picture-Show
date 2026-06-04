@@ -2,71 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
 import 'package:picture_show/shared/mock/posts_mock.dart';
 import 'package:picture_show/shared/widgets/headers/page_header.dart';
-import 'widgets/perfil_info_section.dart';
-import 'widgets/perfil_posts_grid.dart';
+import 'package:picture_show/shared/widgets/posts/post_card.dart';
 
-class PerfilPage extends StatelessWidget {
+class PerfilPostsPage extends StatelessWidget{
 
   final Profile profile;
+  final int initialIndex;
 
-  const PerfilPage({
+  const PerfilPostsPage({
     super.key,
     required this.profile,
+    required this.initialIndex
   });
 
   @override
   Widget build(BuildContext context) {
-
-    final profilePosts = postsMock
-      .where((post) => post.author.id == profile.id)
+    
+    final posts = postsMock
+      .where((post) => post.author == profile)
       .toList();
 
     return Scaffold(
-
       backgroundColor: const Color(0xFFFFFEEF),
 
       body: SafeArea(
-
         child: SingleChildScrollView(
-
           child: Padding(
-
             padding: const EdgeInsets.all(16),
-
             child: Column(
-
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
-                PageHeader(nome: profile.name),
 
-                SizedBox(height: 12),
+                PageHeader(nome: "Posts"),
 
-                Divider(
+                const SizedBox(height: 12),
+
+                const Divider(
                   color: Color(0xFF3C3535),
                   thickness: 1,
                 ),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-                PerfilInfoSection(
-                  profile: profile,
-                  totalPosts: profilePosts.length,
+                ...posts.map(
+                  (post) => FeedPostCard(
+                    post: post,
+                  ),
                 ),
 
-                SizedBox(height: 12),
-
-                Divider(
-                  color: Color(0xFFD0D0D0),
-                  thickness: 1,
-                ),
-
-                SizedBox(height: 12),
-
-                PerfilPostsGrid(
-                  profile: profile,
-                  posts: profilePosts,
-                )
               ],
             ),
           ),

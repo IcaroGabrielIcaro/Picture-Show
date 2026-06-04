@@ -4,7 +4,7 @@ class Post {
 
   final Profile author;
 
-  final String imageUrl;
+  final String imagePath;
   final String description;
   final String publishedAt;
 
@@ -13,7 +13,7 @@ class Post {
 
   const Post({
     required this.author,
-    required this.imageUrl,
+    required this.imagePath,
     required this.description,
     required this.publishedAt,
     required this.likes,

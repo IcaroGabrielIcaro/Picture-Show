@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/features/feed/widgets/feed_header.dart';
-import 'package:picture_show/features/feed/widgets/feed_post_card.dart';
-import '../feed/mock/posts_mock.dart';
+import 'package:picture_show/shared/mock/posts_mock.dart';
+import 'package:picture_show/shared/widgets/posts/post_card.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});

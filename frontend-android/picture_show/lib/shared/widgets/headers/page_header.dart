@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:go_router/go_router.dart';
 
-class PerfilHeader extends StatelessWidget {
+class PageHeader extends StatelessWidget{
 
-  final Profile profile;
+  final String nome;
 
-  const PerfilHeader({
+  const PageHeader({
     super.key,
-    required this.profile,
+    required this.nome
   });
 
   @override
@@ -21,7 +21,9 @@ class PerfilHeader extends StatelessWidget {
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
           onPressed: () {
-            print("Botão de voltar pressionado");
+            if (context.canPop()) {
+              context.pop();
+            }
           },
           icon: SvgPicture.asset(
             'lib/assets/icons/arrow_back.svg',
@@ -36,7 +38,7 @@ class PerfilHeader extends StatelessWidget {
           offset: const Offset(0, 3),
 
           child: Text(
-            profile.name,
+            nome,
             style: TextStyle(
               fontFamily: 'JosefinSlab',
               fontSize: 32,

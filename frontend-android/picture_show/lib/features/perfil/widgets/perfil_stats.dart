@@ -5,11 +5,13 @@ class PerfilStats extends StatelessWidget {
 
   final bool isLargeScreen;
   final Profile profile;
+  final int totalPosts;
 
   const PerfilStats({
     super.key,
     required this.isLargeScreen,
     required this.profile,
+    required this.totalPosts,
   });
 
   Widget buildItem(String label, String value) {
@@ -19,7 +21,7 @@ class PerfilStats extends StatelessWidget {
           value,
           style: TextStyle(
             fontFamily: 'JosefinSlab',
-            fontSize: isLargeScreen ? 24 : 18,
+            fontSize: isLargeScreen ? 24 : 16,
             fontWeight: FontWeight.bold,
             color: Color(0xFF3C3535),
           )
@@ -46,7 +48,7 @@ class PerfilStats extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
 
       children: [
-        buildItem('Fotos', profile.posts.toString()),
+        buildItem('Fotos', totalPosts.toString()),
         SizedBox(width: isLargeScreen ? 24 : 12),
         buildItem('Seguidores', profile.followers.toString()),
         SizedBox(width: isLargeScreen ? 24 : 12),

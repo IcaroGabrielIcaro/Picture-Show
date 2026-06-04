@@ -3,7 +3,9 @@ import 'package:picture_show/core/layouts/main_layout.dart';
 import 'package:picture_show/features/buscar/buscar_page.dart';
 import 'package:picture_show/features/feed/feed_page.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:picture_show/features/perfil/entities/profile_posts.dart';
 import 'package:picture_show/features/perfil/perfil_page.dart';
+import 'package:picture_show/features/perfil/perfil_posts_page.dart';
 
 // Instalando o GoRouter pelo comando 'flutter pub add go_router'
 
@@ -16,6 +18,7 @@ final GoRouter appRouter = GoRouter(
 
     GoRoute(
       path: '/feed',
+      name: 'feed',
 
       builder: (context, state) => const MainLayout(
         child: FeedPage(),
@@ -24,6 +27,7 @@ final GoRouter appRouter = GoRouter(
 
     GoRoute(
       path: '/perfil',
+      name: 'perfil',
 
       builder: (context, state) {
 
@@ -36,10 +40,32 @@ final GoRouter appRouter = GoRouter(
         );
 
       },
+
+      routes: [
+
+        GoRoute(
+          path: '/posts',
+          name: 'perfil-posts',
+          
+          builder: (context, state) {
+
+            final args = state.extra as PerfilPostsArgs;
+
+            return MainLayout(
+              child: PerfilPostsPage(
+                profile: args.profile,
+                initialIndex: args.initialIndex,
+              ),
+            );
+
+          },
+        ),
+      ]
     ),
 
     GoRoute(
       path: '/buscar',
+      name: 'buscar',
 
       builder: (context, state) => const MainLayout(
         child: BuscarPage(),
