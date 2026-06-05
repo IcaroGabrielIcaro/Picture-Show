@@ -8,17 +8,12 @@ class PerfilInfoSection extends StatelessWidget {
   final Profile profile;
   final int totalPosts;
 
-  final String displayName;
-  final String displayBio;
-
   final Future<void> Function()? onEditProfile;
 
   const PerfilInfoSection({
     super.key,
     required this.profile,
     required this.totalPosts,
-    required this.displayName,
-    required this.displayBio,
     this.onEditProfile,
   });
 
@@ -63,7 +58,7 @@ class PerfilInfoSection extends StatelessWidget {
 
                     children: [
                       Text(
-                        displayName,
+                        profile.name,
 
                         style: TextStyle(
                           fontFamily: 'JosefinSlab', 
@@ -75,7 +70,7 @@ class PerfilInfoSection extends StatelessWidget {
                       ),
 
                       Text(
-                        displayBio,
+                        profile.bio,
 
                         style: TextStyle(
                           fontFamily: 'JosefinSlab',

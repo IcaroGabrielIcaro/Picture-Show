@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:picture_show/core/widgets/app_drawer.dart';
 import 'package:picture_show/core/widgets/edit_profile_sheet.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:picture_show/features/perfil/providers/profile_provider.dart';
 import 'package:picture_show/shared/mock/posts_mock.dart';
 import 'package:picture_show/shared/widgets/headers/page_header.dart';
 import 'widgets/perfil_info_section.dart';
 import 'widgets/perfil_posts_grid.dart';
+import 'package:provider/provider.dart';
 
-class PerfilPage extends StatefulWidget {
+class PerfilPage extends StatelessWidget {
 
   final Profile profile;
 
@@ -15,34 +17,20 @@ class PerfilPage extends StatefulWidget {
     super.key,
     required this.profile,
   });
-
-  @override
-  State<PerfilPage> createState() => _PerfilPageState();
-}
-
-class _PerfilPageState extends State<PerfilPage> {
-
-  late String name;
-  late String bio;
-
-  @override
-  void initState() {
-    super.initState();
-
-    name = widget.profile.name;
-    bio = widget.profile.bio;
-  }
-
+    
   @override
   Widget build(BuildContext context) {
 
+    final currentProfile = context.watch<ProfileProvider>()
+      .getProfileById(profile.id);
+
     final profilePosts = postsMock
-      .where((post) => post.author.id == widget.profile.id)
+      .where((post) => post.author.id == currentProfile.id)
       .toList();
 
     return Scaffold(
 
-      endDrawer: widget.profile.id == 0
+      endDrawer: currentProfile.id == 0
         ? const AppDrawer()
         : null,
 
@@ -62,8 +50,8 @@ class _PerfilPageState extends State<PerfilPage> {
 
               children: [
                 PageHeader(
-                  nome: widget.profile.name,
-                  action: widget.profile.id == 0 ? Builder(
+                  nome: currentProfile.name,
+                  action: currentProfile.id == 0 ? Builder(
                     builder: (context) {
                       return IconButton(
                         onPressed: () {
@@ -85,13 +73,12 @@ class _PerfilPageState extends State<PerfilPage> {
                 SizedBox(height: 12),
 
                 PerfilInfoSection(
-                  profile: widget.profile,
+                  profile: currentProfile,
                   totalPosts: profilePosts.length,
-
-                  displayName: name,
-                  displayBio: bio,
-
                   onEditProfile: () async {
+
+                    final profileProvider =
+                        context.read<ProfileProvider>();
 
                     final result = await showModalBottomSheet<Map<String, String>>(
                       context: context,
@@ -99,20 +86,17 @@ class _PerfilPageState extends State<PerfilPage> {
                       backgroundColor: Colors.transparent,
                       barrierColor: Colors.black54,
                       builder: (_) => EditProfileSheet(
-                        profile: widget.profile,
+                        profile: currentProfile,
                       ),
                     );
 
-                    print(result);
-
                     if (result != null) {
 
-                      setState(() {
-
-                        name = result['name'] ?? name;
-                        bio = result['bio'] ?? bio;
-
-                      });
+                      profileProvider.updateProfile(
+                        id: currentProfile.id,
+                        name: result['name'] ?? currentProfile.name,
+                        bio: result['bio'] ?? currentProfile.bio,
+                      );
 
                     }
 
@@ -129,7 +113,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 SizedBox(height: 12),
 
                 PerfilPostsGrid(
-                  profile: widget.profile,
+                  profile: currentProfile,
                   posts: profilePosts,
                 )
               ],

@@ -17,4 +17,21 @@ class Profile {
     required this.following,
   });
   
+  Profile copyWith({
+    int? id,
+    String? name,
+    String? photoUrl,
+    String? bio,
+    int? followers,
+    int? following,
+  }) {
+    return Profile(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      photoUrl: photoUrl ?? this.photoUrl,
+      bio: bio ?? this.bio,
+      followers: followers ?? this.followers,
+      following: following ?? this.following,
+    );
+  }
 }

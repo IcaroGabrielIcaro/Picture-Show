@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/core/routers/app_router.dart';
+import 'package:picture_show/features/perfil/providers/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 // Função principal do app (pronto de entrada)
 void main() {
@@ -14,11 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // build = método que constrói a interface
-    // context = posição desse widget na árvore
-    return MaterialApp.router(
-      // Gerenciador de rotas
-      routerConfig: appRouter,
+    return ChangeNotifierProvider(
+      create: (_) => ProfileProvider(),
+
+      child: MaterialApp.router(
+        routerConfig: appRouter,
+      ),
     );
   }
 }
