@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
-import 'package:picture_show/features/perfil/entities/profile_posts.dart';
+import 'package:picture_show/features/perfil/models/profile_posts.dart';
 import 'package:go_router/go_router.dart';
-import 'package:picture_show/shared/entities/post.dart';
+import 'package:picture_show/features/post/entities/post.dart';
 
 class PerfilPostsGrid extends StatelessWidget {
 

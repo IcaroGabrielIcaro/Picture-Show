@@ -1,13 +1,13 @@
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/core/layouts/main_layout.dart';
-import 'package:picture_show/features/buscar/buscar_page.dart';
-import 'package:picture_show/features/configuracoes/configuracoes_page.dart';
-import 'package:picture_show/features/feed/feed_page.dart';
-import 'package:picture_show/features/login/login_page.dart';
+import 'package:picture_show/features/buscar/pages/buscar_page.dart';
+import 'package:picture_show/features/configuracoes/pages/configuracoes_page.dart';
+import 'package:picture_show/features/feed/pages/feed_page.dart';
+import 'package:picture_show/features/login/pages/login_page.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
-import 'package:picture_show/features/perfil/entities/profile_posts.dart';
-import 'package:picture_show/features/perfil/perfil_page.dart';
-import 'package:picture_show/features/perfil/perfil_posts_page.dart';
+import 'package:picture_show/features/perfil/models/profile_posts.dart';
+import 'package:picture_show/features/perfil/pages/perfil_page.dart';
+import 'package:picture_show/features/perfil/pages/perfil_posts_page.dart';
 
 // Instalando o GoRouter pelo comando 'flutter pub add go_router'
 

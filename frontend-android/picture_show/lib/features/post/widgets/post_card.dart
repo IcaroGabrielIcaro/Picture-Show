@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:picture_show/shared/entities/post.dart';
+import 'package:picture_show/features/post/entities/post.dart';
 
 class FeedPostCard extends StatefulWidget {
 

@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:picture_show/features/feed/widgets/feed_header.dart';
-import 'package:picture_show/shared/mock/posts_mock.dart';
-import 'package:picture_show/shared/widgets/posts/post_card.dart';
+import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:picture_show/features/post/providers/post_provider.dart';
+import 'package:picture_show/shared/widgets/headers/page_header.dart';
+import 'package:picture_show/features/post/widgets/post_card.dart';
+import 'package:provider/provider.dart';
 
-class FeedPage extends StatelessWidget {
-  const FeedPage({super.key});
+class PerfilPostsPage extends StatelessWidget{
+
+  final Profile profile;
+  final int initialIndex;
+
+  const PerfilPostsPage({
+    super.key,
+    required this.profile,
+    required this.initialIndex
+  });
 
   @override
   Widget build(BuildContext context) {
     
+    final postProvider = context.watch<PostProvider>();
+    final profilePosts = postProvider.getPostsByProfileId(profile.id);
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFFEEF),
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -18,7 +32,8 @@ class FeedPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const FeedHeader(),
+
+                PageHeader(nome: "Posts"),
 
                 const SizedBox(height: 12),
 
@@ -29,17 +44,17 @@ class FeedPage extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                ...postsMock.map(
+                ...profilePosts.map(
                   (post) => FeedPostCard(
                     post: post,
                   ),
                 ),
-              ]
+
+              ],
             ),
           ),
         ),
       ),
     );
-
   }
 }

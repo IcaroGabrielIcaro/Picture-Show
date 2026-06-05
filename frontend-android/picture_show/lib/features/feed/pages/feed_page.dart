@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:picture_show/features/perfil/entities/profile.dart';
-import 'package:picture_show/shared/mock/posts_mock.dart';
-import 'package:picture_show/shared/widgets/headers/page_header.dart';
-import 'package:picture_show/shared/widgets/posts/post_card.dart';
+import 'package:picture_show/features/feed/widgets/feed_header.dart';
+import 'package:picture_show/features/post/providers/post_provider.dart';
+import 'package:picture_show/features/post/widgets/post_card.dart';
+import 'package:provider/provider.dart';
 
-class PerfilPostsPage extends StatelessWidget{
-
-  final Profile profile;
-  final int initialIndex;
-
-  const PerfilPostsPage({
-    super.key,
-    required this.profile,
-    required this.initialIndex
-  });
+class FeedPage extends StatelessWidget {
+  const FeedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     
-    final posts = postsMock
-      .where((post) => post.author == profile)
-      .toList();
+    final posts = context.watch<PostProvider>().posts;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFFEEF),
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -32,8 +21,7 @@ class PerfilPostsPage extends StatelessWidget{
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                PageHeader(nome: "Posts"),
+                const FeedHeader(),
 
                 const SizedBox(height: 12),
 
@@ -49,12 +37,12 @@ class PerfilPostsPage extends StatelessWidget{
                     post: post,
                   ),
                 ),
-
-              ],
+              ]
             ),
           ),
         ),
       ),
     );
+
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/perfil/mock/profiles_mock.dart';
+import 'package:picture_show/features/perfil/providers/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavbar extends StatelessWidget {
 
@@ -46,6 +47,10 @@ class BottomNavbar extends StatelessWidget {
 
       onTap: (index) {
 
+        final currentUser = context
+          .read<ProfileProvider>()
+          .getProfileById(0);
+
         if (index == 0) {
           context.goNamed('feed');
         }
@@ -55,7 +60,7 @@ class BottomNavbar extends StatelessWidget {
         }
 
         if (index == 4) {
-          context.goNamed('perfil', extra: profilesMock[0],);
+          context.goNamed('perfil', extra: currentUser);
         }
 
       },

@@ -3,10 +3,10 @@ import 'package:picture_show/core/widgets/app_drawer.dart';
 import 'package:picture_show/core/widgets/edit_profile_sheet.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
 import 'package:picture_show/features/perfil/providers/profile_provider.dart';
-import 'package:picture_show/shared/mock/posts_mock.dart';
+import 'package:picture_show/features/post/providers/post_provider.dart';
 import 'package:picture_show/shared/widgets/headers/page_header.dart';
-import 'widgets/perfil_info_section.dart';
-import 'widgets/perfil_posts_grid.dart';
+import '../widgets/perfil_info_section.dart';
+import '../widgets/perfil_posts_grid.dart';
 import 'package:provider/provider.dart';
 
 class PerfilPage extends StatelessWidget {
@@ -21,12 +21,19 @@ class PerfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final currentProfile = context.watch<ProfileProvider>()
-      .getProfileById(profile.id);
+    final profileProvider = context.watch<ProfileProvider>();
+    final currentProfile = profileProvider.getProfileById(profile.id);
 
-    final profilePosts = postsMock
-      .where((post) => post.author.id == currentProfile.id)
-      .toList();
+    if (currentProfile == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    final postProvider = context.watch<PostProvider>();
+    final profilePosts = postProvider.getPostsByProfileId(currentProfile.id);
 
     return Scaffold(
 
