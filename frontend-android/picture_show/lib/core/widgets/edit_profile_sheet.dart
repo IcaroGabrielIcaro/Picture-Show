@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:picture_show/shared/widgets/inputs/custom_input.dart';
 
 class EditProfileSheet extends StatelessWidget {
 
@@ -95,117 +96,19 @@ class EditProfileSheet extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Nome',
-                style: TextStyle(
-                  fontFamily: 'JosefinSlab', 
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 4),
-
-            TextFormField(
+            CustomInput(
+              label: 'Nome',
+              hintText: 'Digite seu nome',
               controller: nameController,
-
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-
-              decoration: InputDecoration(
-
-                isDense: true,
-
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 8,
-                ),
-
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: const Color.fromARGB(
-                      255,
-                      123,
-                      123,
-                      123,
-                    ).withValues(alpha: 0.3),
-                  ),
-                ),
-
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: const Color.fromARGB(
-                      255,
-                      123,
-                      123,
-                      123,
-                    ).withValues(alpha: 0.5),
-                  ),
-                ),
-              ),
             ),
 
             const SizedBox(height: 10),
 
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Bio',
-                style: TextStyle(
-                  fontFamily: 'JosefinSlab', 
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 4),
-
-            TextFormField(
+            CustomInput(
+              label: 'Bio',
+              hintText: 'Conte um pouco sobre você',
               controller: bioController,
               maxLines: 4,
-
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-
-              decoration: InputDecoration(
-
-                isDense: true,
-
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 8,
-                ),
-
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: const Color.fromARGB(
-                      255,
-                      123,
-                      123,
-                      123,
-                    ).withValues(alpha: 0.3),
-                  ),
-                ),
-
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: const Color.fromARGB(
-                      255,
-                      123,
-                      123,
-                      123,
-                    ).withValues(alpha: 0.5),
-                  ),
-                ),
-              ),
             ),
 
             const Spacer(),

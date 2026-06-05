@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:picture_show/shared/widgets/inputs/custom_input.dart';
 
 class LoginPage extends StatelessWidget {
 
@@ -40,44 +41,17 @@ class LoginPage extends StatelessWidget {
 
                 const SizedBox(height: 48),
 
-                TextFormField(
-
-                  decoration: InputDecoration(
-
-                    labelText: 'Email',
-
-                    labelStyle: const TextStyle(
-                      fontFamily: 'JosefinSlab',
-                    ),
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-
-                  ),
-
+                CustomInput(
+                  label: 'Email',
+                  hintText: 'Digite seu email',
                 ),
 
                 const SizedBox(height: 16),
 
-                TextFormField(
-
-                  obscureText: true,
-
-                  decoration: InputDecoration(
-
-                    labelText: 'Senha',
-
-                    labelStyle: const TextStyle(
-                      fontFamily: 'JosefinSlab',
-                    ),
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-
-                  ),
-
+                CustomInput(
+                  label: 'Senha',
+                  hintText: 'Digite sua senha',
+                  isPassword: true,
                 ),
 
                 const SizedBox(height: 24),
