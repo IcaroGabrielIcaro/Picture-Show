@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class PageHeader extends StatelessWidget{
@@ -16,8 +15,6 @@ class PageHeader extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-
       children: [
 
         IconButton(
@@ -28,10 +25,9 @@ class PageHeader extends StatelessWidget{
               context.pop();
             }
           },
-          icon: SvgPicture.asset(
-            'lib/assets/icons/arrow_back.svg',
-            width: 32,
-            height: 32,
+          icon: const Icon(
+            Icons.arrow_back,
+            size: 32,
           ),
         ),
 
