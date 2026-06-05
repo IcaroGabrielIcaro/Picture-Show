@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:picture_show/shared/widgets/buttons/custom_button.dart';
 import 'package:picture_show/shared/widgets/inputs/custom_input.dart';
 
 class EditProfileSheet extends StatelessWidget {
@@ -113,36 +114,15 @@ class EditProfileSheet extends StatelessWidget {
 
             const Spacer(),
 
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-
-                  Navigator.pop(context, {
-                    'name': nameController.text,
-                    'bio': bioController.text,
-                  });
-
-                },
-
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF3C3535),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-
-                child: const Text(
-                  'Salvar alterações',
-                  style: TextStyle(
-                    fontFamily: 'JosefinSlab', 
-                    color: Color(0xFFFFFEEF),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16
-                  ),
-                ),
-              ),
+            CustomButton(
+              text: 'Salvar alterações',
+              fontSize: 16,
+              onPressed: () {
+                Navigator.pop(context, {
+                  'name': nameController.text,
+                  'bio': bioController.text,
+                });
+              },
             ),
 
             const SizedBox(height: 16),

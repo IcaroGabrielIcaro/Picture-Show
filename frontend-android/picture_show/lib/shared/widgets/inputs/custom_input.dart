@@ -50,10 +50,6 @@ class _CustomInputState extends State<CustomInput> {
           decoration: InputDecoration(
             hintText: widget.hintText,
             isDense: true,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 8,
-            ),
             suffixIcon: widget.isPassword
               ? IconButton(
                   icon: Icon(
