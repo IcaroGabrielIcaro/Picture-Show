@@ -4,8 +4,35 @@ import 'package:picture_show/features/post/providers/post_provider.dart';
 import 'package:picture_show/features/post/widgets/post_card.dart';
 import 'package:provider/provider.dart';
 
-class FeedPage extends StatelessWidget {
+class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
+
+  @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+
+class _FeedPageState extends State<FeedPage> {
+
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 300) {
+      context.read<PostProvider>().loadMorePosts();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,31 +42,35 @@ class FeedPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFEEF),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const FeedHeader(),
+        child: ListView.builder(
+          controller: _scrollController,
+          padding: const EdgeInsets.all(16),
+          itemCount: posts.length + 3,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return const FeedHeader();
+            }
 
-                const SizedBox(height: 12),
-
-                const Divider(
+            if (index == 1) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Divider(
                   color: Color(0xFF3C3535),
                   thickness: 1,
                 ),
+              );
+            }
 
-                const SizedBox(height: 12),
+            if (index == posts.length + 2) {
+              return const SizedBox(height: 24);
+            }
 
-                ...posts.map(
-                  (post) => FeedPostCard(
-                    post: post,
-                  ),
-                ),
-              ]
-            ),
-          ),
+            final post = posts[index - 2];
+
+            return FeedPostCard(
+              post: post,
+            );
+          }
         ),
       ),
     );

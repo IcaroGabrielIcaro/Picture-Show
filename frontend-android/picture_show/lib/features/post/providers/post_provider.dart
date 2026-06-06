@@ -7,16 +7,29 @@ class PostProvider extends ChangeNotifier {
 
   PostProvider(this.repository);
 
-  List<Post> _posts = [];
+  static const int pageSize = 10;
 
-  List<Post> get posts => _posts;
+  List<Post> _allPosts = [];
+  List<Post> _visiblePosts = [];
+
+  List<Post> get posts => _visiblePosts;
 
   Future<void> loadPosts() async {
-    _posts = await repository.getPosts();
+    _allPosts = await repository.getPosts();
+    _visiblePosts = _allPosts.take(pageSize).toList();
+    notifyListeners();
+  }
+
+  Future<void> loadMorePosts() async {
+
+    if (_visiblePosts.length >= _allPosts.length) return;
+
+    final nextCount = (_visiblePosts.length + pageSize).clamp(0, _allPosts.length);
+    _visiblePosts = _allPosts.take(nextCount).toList();
     notifyListeners();
   }
 
   List<Post> getPostsByProfileId(int profileId) {
-    return _posts.where((post) =>post.author.id == profileId,).toList();
+    return _allPosts.where((post) =>post.author.id == profileId).toList();
   }
 }
