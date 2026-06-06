@@ -5,16 +5,16 @@ import 'package:picture_show/data/datasources/mock/auth_mock_datasource.dart';
 import 'package:picture_show/data/datasources/mock/post_mock_datasource.dart';
 import 'package:picture_show/data/datasources/mock/profile_mock_datasource.dart';
 import 'package:picture_show/data/repositories/auth/auth_repository_impl.dart';
-import 'package:picture_show/data/repositories/post/post_repository.dart';
 import 'package:picture_show/data/repositories/post/post_repository_impl.dart';
-import 'package:picture_show/data/repositories/profile/profile_repository.dart';
 import 'package:picture_show/data/repositories/profile/profile_repository_impl.dart';
 import 'package:picture_show/features/auth/providers/auth_provider.dart';
 import 'package:picture_show/features/perfil/providers/profile_provider.dart';
 import 'package:picture_show/features/post/providers/post_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final profileDatasource = ProfileMockDatasource();
   final postDatasource = PostMockDatasource(profileDatasource);
   final authDatasource = AuthMockDatasource();
@@ -25,25 +25,29 @@ void main() async {
   final postRepository = PostRepositoryImpl(postDatasource);
   final authRepository = AuthRepositoryImpl(authDatasource);
 
+  final profileProvider = ProfileProvider(profileRepository);
+  await profileProvider.loadProfiles();
+  final postProvider = PostProvider(postRepository);
+  await postProvider.loadPosts();
   final authProvider = AuthProvider(authRepository, secureStorageService);
   await authProvider.initialize();
 
   runApp(MyApp(
-    profileRepository: profileRepository,
-    postRepository: postRepository,
+    profileProvider: profileProvider,
+    postProvider: postProvider,
     authProvider: authProvider,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final ProfileRepository profileRepository;
-  final PostRepository postRepository;
+  final ProfileProvider profileProvider;
+  final PostProvider postProvider;
   final AuthProvider authProvider;
 
   const MyApp({
     super.key,
-    required this.profileRepository,
-    required this.postRepository,
+    required this.profileProvider,
+    required this.postProvider,
     required this.authProvider
   });
 
@@ -51,21 +55,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) {
-            final provider = ProfileProvider(profileRepository);
-            provider.loadProfiles();
-            return provider;
-          }
-        ),
+        ChangeNotifierProvider.value(value: profileProvider),
 
-        ChangeNotifierProvider(
-          create: (_) {
-            final provider = PostProvider(postRepository);
-            provider.loadPosts();
-            return provider;
-          }
-        ),
+        ChangeNotifierProvider.value(value: postProvider),
 
         ChangeNotifierProvider.value(value: authProvider)
       ],

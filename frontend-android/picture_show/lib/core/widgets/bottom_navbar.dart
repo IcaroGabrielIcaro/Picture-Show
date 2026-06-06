@@ -59,8 +59,14 @@ class BottomNavbar extends StatelessWidget {
         if (index == 4) {
 
           final authUser = context.read<AuthProvider>().user;
+
+          print("authUser: $authUser");
+
           if (authUser == null) return;
           final currentUser = context.read<ProfileProvider>().getProfileById(authUser.profileId);
+          
+          print("currentUser: $currentUser");
+
           if (currentUser == null) return;
 
           context.goNamed('perfil', extra: currentUser);
