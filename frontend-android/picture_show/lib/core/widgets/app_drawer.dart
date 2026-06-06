@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:picture_show/features/auth/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
 
@@ -117,8 +119,14 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
 
-            onTap: () {
-              context.goNamed('login');
+            onTap: () async {
+              Navigator.of(context).pop();
+
+              await context.read<AuthProvider>().logout();
+
+              if (context.mounted) {
+                context.goNamed('login');
+              }
             },
 
           ),

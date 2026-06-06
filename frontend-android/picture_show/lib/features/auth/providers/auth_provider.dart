@@ -42,7 +42,7 @@ class AuthProvider extends ChangeNotifier {
     return true;
   }
 
-  void logout() async {
+  Future<void> logout() async {
     _user = null;
     await storage.clearLogin();
     notifyListeners();
