@@ -50,27 +50,37 @@ class _PerfilPostsPageState extends State<PerfilPostsPage> {
       backgroundColor: const Color(0xFFFFFEEF),
 
       body: SafeArea(
-        child: ListView.builder(
-          controller: _scrollController,
-          padding: const EdgeInsets.all(16),
-          itemCount: profilePosts.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return const Column(
-                children: [
-                  PageHeader(nome: 'Posts'),
-                  SizedBox(height: 12),
-                  Divider(color: Color(0xFF3C3535), thickness: 1),
-                  SizedBox(height: 12),
-                ],
-              );
-            }
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: PageHeader(nome: 'Posts'),
+            ),
 
-            final post = profilePosts[index - 1];
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: profilePosts.length + 1,
+                itemBuilder: (context, index) {
 
-            return FeedPostCard(post: post);
-          }
-        ),
+                  if (index == 0) {
+                    return const Column(
+                      children: [
+                        Divider(color: Color(0xFF3C3535), thickness: 1),
+                        SizedBox(height: 12),
+                      ],
+                    );
+                  }
+
+                  return FeedPostCard(
+                    post: profilePosts[index - 1],
+                  );
+                },
+              ),
+            ),
+          ],
+        )
       ),
     );
   }
