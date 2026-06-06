@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:picture_show/data/repositories/profile_repository.dart';
+import 'package:picture_show/data/repositories/profile/profile_repository.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
 
 class ProfileProvider extends ChangeNotifier {
@@ -8,6 +8,8 @@ class ProfileProvider extends ChangeNotifier {
   ProfileProvider(this.repository);
 
   List<Profile> _profiles = [];
+
+  List<Profile> get profiles => _profiles;
 
   Future<void> loadProfiles() async {
     _profiles = await repository.getProfiles();

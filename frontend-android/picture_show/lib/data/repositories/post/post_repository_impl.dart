@@ -1,5 +1,5 @@
 import 'package:picture_show/data/datasources/mock/post_mock_datasource.dart';
-import 'package:picture_show/data/repositories/post_repository.dart';
+import 'package:picture_show/data/repositories/post/post_repository.dart';
 import 'package:picture_show/features/post/entities/post.dart';
 
 class PostRepositoryImpl implements PostRepository {

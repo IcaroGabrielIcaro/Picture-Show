@@ -1,9 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/core/layouts/main_layout.dart';
+import 'package:picture_show/features/auth/providers/auth_provider.dart';
 import 'package:picture_show/features/buscar/pages/buscar_page.dart';
 import 'package:picture_show/features/configuracoes/pages/configuracoes_page.dart';
 import 'package:picture_show/features/feed/pages/feed_page.dart';
-import 'package:picture_show/features/login/pages/login_page.dart';
+import 'package:picture_show/features/auth/pages/login_page.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
 import 'package:picture_show/features/perfil/models/profile_posts.dart';
 import 'package:picture_show/features/perfil/pages/perfil_page.dart';
@@ -12,65 +13,84 @@ import 'package:picture_show/features/perfil/pages/perfil_posts_page.dart';
 // Instalando o GoRouter pelo comando 'flutter pub add go_router'
 
 // appRouter vai ser o objeto responsável por toda a navegação
-final GoRouter appRouter = GoRouter(
-  initialLocation: '/feed',
+GoRouter createRouter(AuthProvider authProvider) {
+  return GoRouter(
+    initialLocation: '/login',
 
-  routes: [
-    GoRoute(
-      path: '/feed',
-      name: 'feed',
+    refreshListenable: authProvider,
 
-      builder: (context, state) => const MainLayout(child: FeedPage()),
-    ),
+    redirect: (context, state) {
+      final isAuthenticated = authProvider.isAuthenticated;
+      final isLoginRoute = state.matchedLocation == '/login';
 
-    GoRoute(
-      path: '/perfil',
-      name: 'perfil',
+      if (!isAuthenticated && !isLoginRoute) {
+        return '/login';
+      }
 
-      builder: (context, state) {
-        final profile = state.extra as Profile;
+      if (isAuthenticated && isLoginRoute) {
+        return '/feed';
+      }
 
-        return MainLayout(child: PerfilPage(profile: profile));
-      },
+      return null;
+    },
 
-      routes: [
-        GoRoute(
-          path: '/posts',
-          name: 'perfil-posts',
+    routes: [
+      GoRoute(
+        path: '/feed',
+        name: 'feed',
 
-          builder: (context, state) {
-            final args = state.extra as PerfilPostsArgs;
+        builder: (context, state) => const MainLayout(child: FeedPage()),
+      ),
 
-            return MainLayout(
-              child: PerfilPostsPage(
-                profile: args.profile,
-                initialIndex: args.initialIndex,
-              ),
-            );
-          },
-        ),
-      ],
-    ),
+      GoRoute(
+        path: '/perfil',
+        name: 'perfil',
 
-    GoRoute(
-      path: '/buscar',
-      name: 'buscar',
+        builder: (context, state) {
+          final profile = state.extra as Profile;
 
-      builder: (context, state) => const MainLayout(child: BuscarPage()),
-    ),
+          return MainLayout(child: PerfilPage(profile: profile));
+        },
 
-    GoRoute(
-      path: '/configuracoes',
-      name: 'configuracoes',
-      builder: (context, state) {
-        return const ConfiguracoesPage();
-      },
-    ),
+        routes: [
+          GoRoute(
+            path: '/posts',
+            name: 'perfil-posts',
 
-    GoRoute(
-      path: '/login',
-      name: 'login',
-      builder: (context, state) => const LoginPage(),
-    ),
-  ],
-);
+            builder: (context, state) {
+              final args = state.extra as PerfilPostsArgs;
+
+              return MainLayout(
+                child: PerfilPostsPage(
+                  profile: args.profile,
+                  initialIndex: args.initialIndex,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+
+      GoRoute(
+        path: '/buscar',
+        name: 'buscar',
+
+        builder: (context, state) => const MainLayout(child: BuscarPage()),
+      ),
+
+      GoRoute(
+        path: '/configuracoes',
+        name: 'configuracoes',
+        builder: (context, state) {
+          return const ConfiguracoesPage();
+        },
+      ),
+
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LoginPage(),
+      ),
+    ]
+  );
+}

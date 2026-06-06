@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:picture_show/features/auth/providers/auth_provider.dart';
 import 'package:picture_show/features/perfil/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -47,10 +48,6 @@ class BottomNavbar extends StatelessWidget {
 
       onTap: (index) {
 
-        final currentUser = context
-          .read<ProfileProvider>()
-          .getProfileById(0);
-
         if (index == 0) {
           context.goNamed('feed');
         }
@@ -60,6 +57,12 @@ class BottomNavbar extends StatelessWidget {
         }
 
         if (index == 4) {
+
+          final authUser = context.read<AuthProvider>().user;
+          if (authUser == null) return;
+          final currentUser = context.read<ProfileProvider>().getProfileById(authUser.profileId);
+          if (currentUser == null) return;
+
           context.goNamed('perfil', extra: currentUser);
         }
 

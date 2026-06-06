@@ -1,5 +1,5 @@
 import 'package:picture_show/data/datasources/mock/profile_mock_datasource.dart';
-import 'package:picture_show/data/repositories/profile_repository.dart';
+import 'package:picture_show/data/repositories/profile/profile_repository.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {

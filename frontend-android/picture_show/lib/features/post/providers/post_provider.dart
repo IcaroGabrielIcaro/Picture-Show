@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:picture_show/data/repositories/post_repository.dart';
+import 'package:picture_show/data/repositories/post/post_repository.dart';
 import 'package:picture_show/features/post/entities/post.dart';
 
 class PostProvider extends ChangeNotifier {
