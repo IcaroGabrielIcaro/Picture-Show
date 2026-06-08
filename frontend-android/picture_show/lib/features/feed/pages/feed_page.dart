@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:picture_show/features/feed/widgets/feed_header.dart';
 import 'package:picture_show/features/post/providers/post_provider.dart';
 import 'package:picture_show/features/post/widgets/post_card.dart';
+import 'package:picture_show/shared/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class FeedPage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _FeedPageState extends State<FeedPage> {
     final posts = context.watch<PostProvider>().posts;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFEEF),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: ListView.builder(
           controller: _scrollController,

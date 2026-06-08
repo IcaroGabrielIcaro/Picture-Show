@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/shared/theme/app_text_styles.dart';
 
 class BuscarPessoaCard extends StatelessWidget {
   const BuscarPessoaCard({super.key});
@@ -17,16 +18,7 @@ class BuscarPessoaCard extends StatelessWidget {
         const SizedBox(width: 14),
 
         Expanded(
-          child: Text(
-            'Nicolas Cage Again',
-
-            style: const TextStyle(
-              fontFamily: 'JosefinSlab',
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF3C3535),
-            ),
-          ),
+          child: Text('Nicolas Cage Again', style: AppTextStyles.body)
         ),
       ],
     );

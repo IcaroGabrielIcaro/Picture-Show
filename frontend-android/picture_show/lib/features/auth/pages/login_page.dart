@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/auth/providers/auth_provider.dart';
+import 'package:picture_show/shared/theme/app_colors.dart';
+import 'package:picture_show/shared/theme/app_text_styles.dart';
 import 'package:picture_show/shared/widgets/buttons/custom_button.dart';
 import 'package:picture_show/shared/widgets/inputs/custom_input.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
 
-      backgroundColor: const Color(0xFFFFFEEF),
+      backgroundColor: AppColors.background,
 
       body: SafeArea(
         child: Center(
@@ -42,14 +44,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
-                const Text(
-                  'Picture Show',
-                  style: TextStyle(
-                    fontFamily: 'OoohBaby',
-                    fontSize: 58,
-                    color: Color(0xFF3C3535),
-                  ),
-                ),
+                Text('Picture Show', style: AppTextStyles.logo),
 
                 const SizedBox(height: 48),
 

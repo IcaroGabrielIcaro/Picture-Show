@@ -68,9 +68,7 @@ class _BuscarHeaderState extends State<BuscarHeader> {
 
           title: const Text('Busca'),
 
-          content: Text(
-            'Ainda não existe conexão com o backend.\n\nBusca digitada:\n$searchText',
-          ),
+          content: Text('Ainda não existe conexão com o backend.\n\nBusca digitada:\n$searchText'),
 
           actions: [
 

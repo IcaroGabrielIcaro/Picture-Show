@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:picture_show/shared/theme/app_text_styles.dart';
 import 'package:picture_show/shared/widgets/buttons/custom_button.dart';
 import 'perfil_stats.dart';
 
@@ -57,27 +58,8 @@ class PerfilInfoSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: [
-                      Text(
-                        profile.name,
-
-                        style: TextStyle(
-                          fontFamily: 'JosefinSlab', 
-                          fontSize: titleSize, 
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF3C3535),
-                        ),
-
-                      ),
-
-                      Text(
-                        profile.bio,
-
-                        style: TextStyle(
-                          fontFamily: 'JosefinSlab',
-                          fontSize: descriptionSize,
-                          color: Color(0xFF3C3535),
-                        ),
-                      ),
+                      Text(profile.name, style: AppTextStyles.heading.copyWith(fontSize: titleSize)),
+                      Text(profile.bio, style: AppTextStyles.body.copyWith(fontSize: descriptionSize))
                     ],
                   ),
                 ),

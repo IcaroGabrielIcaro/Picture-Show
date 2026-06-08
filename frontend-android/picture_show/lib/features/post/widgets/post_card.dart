@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/perfil/providers/profile_provider.dart';
 import 'package:picture_show/features/post/entities/post.dart';
+import 'package:picture_show/shared/theme/app_text_styles.dart';
 import 'package:provider/provider.dart';
 
 class FeedPostCard extends StatefulWidget {
@@ -69,7 +70,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
 
               InkWell(
                 onTap: () {
-                  context.push('/perfil', extra: author);
+                  context.pushNamed('perfil', extra: author);
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Row(
@@ -78,30 +79,12 @@ class _FeedPostCardState extends State<FeedPostCard> {
                       radius: 20,
                       backgroundImage: NetworkImage(author.photoUrl),
                     ),
-
                     const SizedBox(width: 10),
-
-                    Text(
-                      author.name,
-                      style: TextStyle(
-                        fontFamily: 'JosefinSlab',
-                        fontSize: 20,
-                        color: Color(0xFF3C3535),
-                      ),
-                    )
+                    Text(author.name, style: AppTextStyles.subtitle)
                   ],
                 ),
               ),
-
-              Text(
-                widget.post.publishedAt,
-                style: TextStyle(
-                  fontFamily: 'JosefinSlab',
-                  fontSize: 14,
-                  color: Color(0xFF3C3535),
-                ),
-              ),
-
+              Text(widget.post.publishedAt, style: AppTextStyles.body.copyWith(fontSize: 14))
             ],
           ),
 
@@ -142,17 +125,8 @@ class _FeedPostCardState extends State<FeedPostCard> {
 
                   Transform.translate(
                     offset: const Offset(0, 1),
-
-                    child: Text(
-                      '$likes',
-                      style: const TextStyle(
-                        fontFamily: 'JosefinSlab',
-                        fontSize: 18,
-                        color: Color(0xFF3C3535),
-                      ),
-                    ),
+                    child: Text('$likes', style: AppTextStyles.body.copyWith(fontSize: 18))
                   )
-
                 ],
               ),
 
@@ -160,21 +134,10 @@ class _FeedPostCardState extends State<FeedPostCard> {
 
               RichText(
                 text: TextSpan(
-                  style: TextStyle(
-                    fontFamily: 'JosefinSlab',
-                    fontSize: 16,
-                    color: Color(0xFF3C3535),
-                  ),
+                  style: AppTextStyles.body,
                   children: [
-                    TextSpan(
-                      text: '${author.name} ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: widget.post.description,
-                    ),
+                    TextSpan(text: '${author.name} ', style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold)),
+                    TextSpan(text: widget.post.description),
                   ],
                 ),
               ),

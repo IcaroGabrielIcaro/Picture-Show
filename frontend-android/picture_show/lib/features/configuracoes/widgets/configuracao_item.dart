@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/shared/theme/app_text_styles.dart';
 
 class ConfiguracaoItem extends StatelessWidget {
   final IconData icon;
@@ -24,15 +25,7 @@ class ConfiguracaoItem extends StatelessWidget {
           const SizedBox(width: 12),
 
           Expanded(
-            child: Text(
-              titulo,
-
-              style: const TextStyle(
-                fontFamily: 'JosefinSlab',
-                fontSize: 22,
-                color: Color(0xFF3C3535),
-              ),
-            ),
+            child: Text(titulo, style: AppTextStyles.subtitle)
           ),
 
           const Icon(Icons.chevron_right, color: Color(0xFF3C3535)),

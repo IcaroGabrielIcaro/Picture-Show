@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/shared/theme/app_text_styles.dart';
 
 class FeedHeader extends StatelessWidget {
   const FeedHeader({super.key});
@@ -8,14 +9,7 @@ class FeedHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Picture Show',
-          style: TextStyle(
-            fontFamily: 'OoohBaby',
-            fontSize: 32,
-            color: Color(0xFF3C3535),
-          ),
-        ),
+        Text('Picture Show', style: AppTextStyles.logo.copyWith(fontSize: 32))
       ],
     );
   }

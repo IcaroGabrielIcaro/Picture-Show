@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
+import 'package:picture_show/shared/theme/app_text_styles.dart';
 
 class PerfilStats extends StatelessWidget {
 
@@ -17,26 +18,9 @@ class PerfilStats extends StatelessWidget {
   Widget buildItem(String label, String value) {
     return Row(
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontFamily: 'JosefinSlab',
-            fontSize: isLargeScreen ? 24 : 16,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF3C3535),
-          )
-        ),
-
+        Text(value, style: AppTextStyles.body.copyWith(fontSize: isLargeScreen ? 24 : 16)),
         SizedBox(width: isLargeScreen ? 12 : 6),
-
-        Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'JosefinSlab',
-            fontSize: isLargeScreen ? 20 : 18,
-            color: Color(0xFF3C3535),
-          ),
-        ),
+        Text(label, style: AppTextStyles.body.copyWith(fontSize: isLargeScreen ? 20 : 18))
       ],
     );
   }

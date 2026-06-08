@@ -4,6 +4,7 @@ import 'package:picture_show/core/widgets/edit_profile_sheet.dart';
 import 'package:picture_show/features/perfil/entities/profile.dart';
 import 'package:picture_show/features/perfil/providers/profile_provider.dart';
 import 'package:picture_show/features/post/providers/post_provider.dart';
+import 'package:picture_show/shared/theme/app_colors.dart';
 import 'package:picture_show/shared/widgets/headers/page_header.dart';
 import '../widgets/perfil_info_section.dart';
 import '../widgets/perfil_posts_grid.dart';
@@ -37,11 +38,9 @@ class PerfilPage extends StatelessWidget {
 
     return Scaffold(
 
-      endDrawer: currentProfile.id == 0
-        ? const AppDrawer()
-        : null,
+      endDrawer: currentProfile.id == 0 ? const AppDrawer() : null,
 
-      backgroundColor: const Color(0xFFFFFEEF),
+      backgroundColor: AppColors.background,
 
       body: SafeArea(
 
