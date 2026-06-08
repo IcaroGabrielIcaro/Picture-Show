@@ -1,10 +1,9 @@
-import 'package:picture_show/data/models/profile_model.dart';
 import 'package:picture_show/features/post/entities/post.dart';
 
 class PostModel extends Post {
 
   const PostModel({
-    required super.author,
+    required super.authorId,
     required super.imagePath,
     required super.description,
     required super.publishedAt,
@@ -14,7 +13,7 @@ class PostModel extends Post {
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
-      author: ProfileModel.fromJson(json['author'] as Map<String, dynamic>),
+      authorId: json['authorId'] as int,
       imagePath: json['imagePath'] as String,
       description: json['description'] as String,
       publishedAt: json['publishedAt'] as String,
@@ -25,7 +24,7 @@ class PostModel extends Post {
 
   Map<String, dynamic> toJson() {
     return {
-      'author': ProfileModel.fromEntity(author).toJson(),
+      'authorId': authorId,
       'imagePath': imagePath,
       'description': description,
       'publishedAt': publishedAt,
@@ -36,7 +35,7 @@ class PostModel extends Post {
 
   factory PostModel.fromEntity(Post post) {
     return PostModel(
-      author: post.author,
+      authorId: post.authorId,
       imagePath: post.imagePath,
       description: post.description,
       publishedAt: post.publishedAt,

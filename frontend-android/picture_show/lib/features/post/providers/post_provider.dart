@@ -30,6 +30,6 @@ class PostProvider extends ChangeNotifier {
   }
 
   List<Post> getPostsByProfileId(int profileId) {
-    return _allPosts.where((post) =>post.author.id == profileId).toList();
+    return _allPosts.where((post) =>post.authorId == profileId).toList();
   }
 }

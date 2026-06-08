@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:picture_show/features/perfil/providers/profile_provider.dart';
 import 'package:picture_show/features/post/entities/post.dart';
+import 'package:provider/provider.dart';
 
 class FeedPostCard extends StatefulWidget {
 
@@ -47,6 +49,13 @@ class _FeedPostCardState extends State<FeedPostCard> {
   @override
   Widget build(BuildContext context) {
 
+    final profileProvider = context.watch<ProfileProvider>();
+    final author = profileProvider.getProfileById(widget.post.authorId);
+
+    if (author == null) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
 
@@ -60,25 +69,20 @@ class _FeedPostCardState extends State<FeedPostCard> {
 
               InkWell(
                 onTap: () {
-                  context.push(
-                    '/perfil',
-                    extra: widget.post.author,
-                  );
+                  context.push('/perfil', extra: author);
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Row(
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: NetworkImage(
-                        widget.post.author.photoUrl
-                      ),
+                      backgroundImage: NetworkImage(author.photoUrl),
                     ),
 
                     const SizedBox(width: 10),
 
                     Text(
-                      widget.post.author.name,
+                      author.name,
                       style: TextStyle(
                         fontFamily: 'JosefinSlab',
                         fontSize: 20,
@@ -128,15 +132,9 @@ class _FeedPostCardState extends State<FeedPostCard> {
 
                   GestureDetector(
                     onTap: toggleLike,
-
                     child: Icon(
-                      isLiked
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-
-                      color: isLiked
-                          ? const Color(0xFF3C3535)
-                          : const Color(0xFF3C3535),
+                      isLiked ? Icons.favorite : Icons.favorite_border,
+                      color: isLiked ? const Color(0xFF3C3535) : const Color(0xFF3C3535),
                     ),
                   ),
 
@@ -169,7 +167,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
                   ),
                   children: [
                     TextSpan(
-                      text: '${widget.post.author.name} ',
+                      text: '${author.name} ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),

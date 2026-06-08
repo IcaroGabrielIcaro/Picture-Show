@@ -1,17 +1,12 @@
-import 'package:picture_show/data/datasources/mock/profile_mock_datasource.dart';
 import 'package:picture_show/features/post/entities/post.dart';
 
 class PostMockDatasource {
-  final ProfileMockDatasource profileDatasource;
-
-  PostMockDatasource(this.profileDatasource);
 
   Future<List<Post>> getPosts() async {
-    final profiles = await profileDatasource.getProfiles();
 
     return [
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-001.jpeg',
         description: 'Filmando mais um clássico questionável.',
         publishedAt: 'Há 10 minutos',
@@ -20,7 +15,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-002.jpeg',
         description: 'Às vezes o melhor plano é não ter plano.',
         publishedAt: 'Há 18 minutos',
@@ -29,7 +24,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-003.jpeg',
         description: 'Mais uma missão concluída.',
         publishedAt: 'Há 30 minutos',
@@ -38,7 +33,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-004.jpeg',
         description: 'Luz boa, câmera pronta e momento perfeito.',
         publishedAt: 'Há 45 minutos',
@@ -47,7 +42,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-005.jpeg',
         description: 'Isso parecia uma boa ideia na minha cabeça.',
         publishedAt: 'Há 1 hora',
@@ -56,7 +51,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-006.jpeg',
         description: 'A vida continua carregando...',
         publishedAt: 'Há 1 hora',
@@ -65,7 +60,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-007.jpeg',
         description: 'Explorando novos caminhos.',
         publishedAt: 'Há 2 horas',
@@ -74,7 +69,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-008.jpeg',
         description: 'Uma das minhas capturas favoritas da semana.',
         publishedAt: 'Há 2 horas',
@@ -83,7 +78,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-009.jpeg',
         description: 'Não me perguntem como chegamos aqui.',
         publishedAt: 'Há 3 horas',
@@ -92,7 +87,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-010.jpeg',
         description: 'Respirando fundo e seguindo em frente.',
         publishedAt: 'Há 3 horas',
@@ -101,7 +96,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-011.jpeg',
         description: 'Aventura desbloqueada.',
         publishedAt: 'Há 4 horas',
@@ -110,7 +105,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-012.jpeg',
         description: 'Mais um registro para a coleção.',
         publishedAt: 'Há 5 horas',
@@ -119,7 +114,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-013.jpeg',
         description: 'Definitivamente aconteceu.',
         publishedAt: 'Há 6 horas',
@@ -128,7 +123,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-014.jpeg',
         description: 'Vivendo um dia de cada vez.',
         publishedAt: 'Há 6 horas',
@@ -137,7 +132,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-015.jpeg',
         description: 'Só observando o cenário.',
         publishedAt: 'Há 7 horas',
@@ -146,7 +141,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-016.jpeg',
         description: 'Um clique simples que gostei bastante.',
         publishedAt: 'Há 8 horas',
@@ -155,7 +150,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-017.jpeg',
         description: 'Caos organizado.',
         publishedAt: 'Há 9 horas',
@@ -164,7 +159,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-018.jpeg',
         description: 'Ainda tentando entender tudo isso.',
         publishedAt: 'Há 10 horas',
@@ -173,7 +168,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-019.jpeg',
         description: 'Valeu a caminhada.',
         publishedAt: 'Há 11 horas',
@@ -182,7 +177,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-020.jpeg',
         description: 'Fotografia é sobre encontrar momentos.',
         publishedAt: 'Há 12 horas',
@@ -191,7 +186,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-021.jpeg',
         description: 'Ninguém estava preparado para isso.',
         publishedAt: 'Há 13 horas',
@@ -200,7 +195,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-022.jpeg',
         description: 'Silêncio também é resposta.',
         publishedAt: 'Há 14 horas',
@@ -209,7 +204,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-023.jpeg',
         description: 'Dia produtivo.',
         publishedAt: 'Há 15 horas',
@@ -218,7 +213,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-024.jpeg',
         description: 'Um dos lugares mais bonitos que visitei.',
         publishedAt: 'Há 16 horas',
@@ -227,7 +222,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-025.jpeg',
         description: 'Mais uma história para contar.',
         publishedAt: 'Há 17 horas',
@@ -236,7 +231,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-026.jpeg',
         description: 'Sem filtros, sem complicação.',
         publishedAt: 'Há 18 horas',
@@ -245,7 +240,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-027.jpeg',
         description: 'Treinamento concluído.',
         publishedAt: 'Há 19 horas',
@@ -254,7 +249,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-028.jpeg',
         description: 'Gostei da composição dessa foto.',
         publishedAt: 'Há 20 horas',
@@ -263,7 +258,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/davi-029.jpeg',
         description: 'Nada pode dar errado. Acho.',
         publishedAt: 'Há 21 horas',
@@ -272,7 +267,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/davi-030.jpeg',
         description: 'Mais um capítulo da jornada.',
         publishedAt: 'Há 22 horas',
@@ -281,7 +276,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/davi-031.jpeg',
         description: 'Continuamos avançando.',
         publishedAt: 'Há 23 horas',
@@ -290,7 +285,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/davi-032.jpeg',
         description: 'Encerrando o dia com essa foto.',
         publishedAt: 'Há 1 dia',
@@ -299,7 +294,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/gui-001.jpeg',
         description: 'Começando a semana com energia.',
         publishedAt: 'Há 1 dia',
@@ -308,7 +303,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/gui-002.jpeg',
         description: 'Missão secundária aceita.',
         publishedAt: 'Há 1 dia',
@@ -317,7 +312,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/gui-003.jpeg',
         description: 'A melhor vista é a próxima.',
         publishedAt: 'Há 1 dia',
@@ -326,7 +321,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/gui-004.jpeg',
         description: 'Não tentem reproduzir isso.',
         publishedAt: 'Há 2 dias',
@@ -335,7 +330,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/gui-005.jpeg',
         description: 'Um instante congelado no tempo.',
         publishedAt: 'Há 2 dias',
@@ -344,7 +339,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/gui-006.jpeg',
         description: 'Pequenas vitórias importam.',
         publishedAt: 'Há 2 dias',
@@ -353,7 +348,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/gui-007.jpeg',
         description: 'Só curtindo o momento.',
         publishedAt: 'Há 2 dias',
@@ -362,7 +357,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/gui-008.jpeg',
         description: 'Mais estranho do que parece.',
         publishedAt: 'Há 3 dias',
@@ -371,7 +366,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/igo-001.jpeg',
         description: 'Novo destino desbloqueado.',
         publishedAt: 'Há 3 dias',
@@ -380,7 +375,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/igo-002.jpeg',
         description: 'Um café e boas ideias.',
         publishedAt: 'Há 3 dias',
@@ -389,7 +384,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/igo-003.jpeg',
         description: 'Pensamentos aleatórios da madrugada.',
         publishedAt: 'Há 4 dias',
@@ -398,7 +393,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/kaue-001.jpeg',
         description: 'Lugares simples rendem boas histórias.',
         publishedAt: 'Há 4 dias',
@@ -407,7 +402,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/kaue-002.jpeg',
         description: 'Seguimos explorando.',
         publishedAt: 'Há 4 dias',
@@ -416,7 +411,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[1],
+        authorId: 1,
         imagePath: 'lib/assets/images/kaue-003.jpeg',
         description: 'Nada além do essencial.',
         publishedAt: 'Há 5 dias',
@@ -425,7 +420,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[0],
+        authorId: 0,
         imagePath: 'lib/assets/images/kaue-004.jpeg',
         description: 'Provavelmente uma péssima ideia.',
         publishedAt: 'Há 5 dias',
@@ -434,7 +429,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[3],
+        authorId: 3,
         imagePath: 'lib/assets/images/kaue-005.jpeg',
         description: 'Fechando a galeria com chave de ouro.',
         publishedAt: 'Há 5 dias',
@@ -443,7 +438,7 @@ class PostMockDatasource {
       ),
 
       Post(
-        author: profiles[2],
+        authorId: 2,
         imagePath: 'lib/assets/images/vito-001.jpeg',
         description: 'Último registro da semana.',
         publishedAt: 'Há 6 dias',

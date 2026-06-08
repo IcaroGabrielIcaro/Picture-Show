@@ -1,8 +1,6 @@
-import 'package:picture_show/features/perfil/entities/profile.dart';
-
 class Post {
 
-  final Profile author;
+  final int authorId;
 
   final String imagePath;
   final String description;
@@ -12,7 +10,7 @@ class Post {
   final bool isLiked;
 
   const Post({
-    required this.author,
+    required this.authorId,
     required this.imagePath,
     required this.description,
     required this.publishedAt,

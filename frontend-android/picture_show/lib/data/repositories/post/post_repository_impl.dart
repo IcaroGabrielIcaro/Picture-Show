@@ -16,6 +16,6 @@ class PostRepositoryImpl implements PostRepository {
   Future<List<Post>> getPostsByProfileId(int profileId) async {
     final posts = await datasource.getPosts();
 
-    return posts.where((post) => post.author.id == profileId).toList();
+    return posts.where((post) => post.authorId == profileId).toList();
   }
 }

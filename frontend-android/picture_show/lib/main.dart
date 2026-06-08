@@ -16,7 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final profileDatasource = ProfileMockDatasource();
-  final postDatasource = PostMockDatasource(profileDatasource);
+  final postDatasource = PostMockDatasource();
   final authDatasource = AuthMockDatasource();
 
   final secureStorageService = SecureStorageService();
@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
       ],
 
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         routerConfig: createRouter(authProvider),
       ),
     );
