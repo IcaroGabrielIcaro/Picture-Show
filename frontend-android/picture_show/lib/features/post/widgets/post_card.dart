@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/perfil/providers/profile_provider.dart';
@@ -136,7 +137,12 @@ class _FeedPostCardState extends State<FeedPostCard> {
                 text: TextSpan(
                   style: AppTextStyles.body,
                   children: [
-                    TextSpan(text: '${author.name} ', style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold)),
+                    TextSpan(
+                      text: '${author.name} ', 
+                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()..onTap = () {
+                        context.pushNamed('perfil', extra: author);
+                      }),
                     TextSpan(text: widget.post.description),
                   ],
                 ),

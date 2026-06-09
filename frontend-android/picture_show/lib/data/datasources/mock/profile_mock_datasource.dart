@@ -32,9 +32,9 @@ class ProfileMockDatasource {
 
     Profile(
       id: 3,
-      name: 'Ana Silva',
-      photoUrl: 'https://picsum.photos/200?31',
-      bio: 'Fotografia, café e viagens.',
+      name: 'Amy Winehouse',
+      photoUrl: 'https://akamai.sscdn.co/uploadfile/letras/fotos/f/1/c/f/f1cf6f9da728c1d80f09b881bd244bca.jpg',
+      bio: 'Tentando não voltar pras drogas....',
       followers: 2100,
       following: 580,
     ),
