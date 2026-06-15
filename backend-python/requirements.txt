@@ -1,5 +1,7 @@
-django 
-djangorestframework 
-drf-yasg 
-djangorestframework-simplejwt
+Django
 django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
+django-filter
+drf-spectacular
+pillow
