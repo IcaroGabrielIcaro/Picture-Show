@@ -5,3 +5,4 @@ djangorestframework-simplejwt
 django-filter
 drf-spectacular
 pillow
+gunicorn

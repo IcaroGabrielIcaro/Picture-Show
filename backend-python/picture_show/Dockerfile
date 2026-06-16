@@ -13,4 +13,4 @@ RUN mkdir -p /app/static
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate && gunicorn picture_show.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
