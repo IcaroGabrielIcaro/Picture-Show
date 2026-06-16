@@ -3,9 +3,10 @@ services:
     build: .
     ports:
       - "8000:8000"
+
     volumes:
       - .:/app
-      - sqlite_data:/app/data
+      - ./data:/app/data
+      - ./static:/app/static
 
-volumes:
-  sqlite_data:
+    restart: unless-stopped
