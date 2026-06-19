@@ -1,6 +1,7 @@
 from django.test import TestCase
 from api.serializers import UsuarioCadastroSerializer, PublicacaoSerializer
 from api.models import Usuario, Publicacao, Reacao, Comentario
+from django.test import RequestFactory
 
 
 class UsuarioCadastroSerializerTest(TestCase):
@@ -137,3 +138,103 @@ class UsuarioCadastroSerializerTest(TestCase):
         self.assertFalse(serializer.is_valid())
 
     
+    def test_duplicate_username(self):
+
+        Usuario.objects.create_user(
+            username="icaro",
+            password="123456"
+        )
+
+        serializer = UsuarioCadastroSerializer(
+            data={
+                "username": "icaro",
+                "nome": "Outro",
+                "senha": "123456"
+            }
+        )
+
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("username", serializer.errors)
+
+    def test_empty_bio_is_valid(self):
+
+        serializer = UsuarioCadastroSerializer(
+            data={
+                "username": "icaro",
+                "nome": "Icaro",
+                "senha": "123456",
+                "bio": ""
+            }
+        )
+
+        self.assertTrue(serializer.is_valid())
+
+    def test_likes_count_zero(self):
+
+        autor = Usuario.objects.create_user(
+            username="autor",
+            password="123456"
+        )
+
+        post = Publicacao.objects.create(
+            descricao="teste",
+            autor=autor
+        )
+
+        data = PublicacaoSerializer(post).data
+
+        self.assertEqual(data["likes"], 0)
+
+    def test_comment_count_zero(self):
+
+        autor = Usuario.objects.create_user(
+            username="autor",
+            password="123456"
+        )
+
+        post = Publicacao.objects.create(
+            descricao="teste",
+            autor=autor
+        )
+
+        data = PublicacaoSerializer(post).data
+
+        self.assertEqual(data["comentarios"], 0)
+
+    def test_minha_reacao_like(self):
+
+        factory = RequestFactory()
+
+        autor = Usuario.objects.create_user(
+            username="autor",
+            password="123456"
+        )
+
+        user = Usuario.objects.create_user(
+            username="user",
+            password="123456"
+        )
+
+        post = Publicacao.objects.create(
+            descricao="teste",
+            autor=autor
+        )
+
+        Reacao.objects.create(
+            usuario=user,
+            publicacao=post,
+            tipo=Reacao.LIKE
+        )
+
+        request = factory.get("/")
+        request.user = user
+
+        data = PublicacaoSerializer(
+            post,
+            context={"request": request}
+        ).data
+
+        self.assertEqual(
+            data["minha_reacao"],
+            Reacao.LIKE
+        )

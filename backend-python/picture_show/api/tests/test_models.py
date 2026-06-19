@@ -82,3 +82,64 @@ class UsuarioModelTest(TestCase):
         )
 
         self.assertEqual(comentario.mensagem, "")
+
+    def test_create_superuser_requires_is_staff(self):
+        with self.assertRaises(ValueError):
+            Usuario.objects.create_superuser(
+                username="admin",
+                password="123456",
+                is_staff=False
+            )
+
+    def test_create_superuser_requires_is_superuser(self):
+        with self.assertRaises(ValueError):
+            Usuario.objects.create_superuser(
+                username="admin",
+                password="123456",
+                is_superuser=False
+            )
+
+    def test_total_seguidores(self):
+        a = Usuario.objects.create_user(username="a", password="123456")
+        b = Usuario.objects.create_user(username="b", password="123456")
+
+        Seguidor.objects.create(seguidor=b, seguindo=a)
+
+        self.assertEqual(a.total_seguidores, 1)
+
+    def test_total_seguindo(self):
+        a = Usuario.objects.create_user(username="a", password="123456")
+        b = Usuario.objects.create_user(username="b", password="123456")
+
+        Seguidor.objects.create(seguidor=a, seguindo=b)
+
+        self.assertEqual(a.total_seguindo, 1)
+
+    def test_total_publicacoes(self):
+        autor = Usuario.objects.create_user(
+            username="autor",
+            password="123456"
+        )
+
+        Publicacao.objects.create(
+            descricao="p1",
+            autor=autor
+        )
+
+        Publicacao.objects.create(
+            descricao="p2",
+            autor=autor
+        )
+
+        self.assertEqual(
+            autor.total_publicacoes,
+            2
+        )
+
+    def test_usuario_str_returns_username(self):
+        user = Usuario.objects.create_user(
+            username="icaro",
+            password="123456"
+        )
+
+        self.assertEqual(str(user), "icaro")
