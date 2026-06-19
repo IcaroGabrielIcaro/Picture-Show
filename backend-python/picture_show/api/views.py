@@ -57,6 +57,13 @@ class UsuarioViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Up
         usuario = self.get_object()
         Seguidor.objects.filter(seguidor=request.user, seguindo=usuario).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def get_permissions(self):
+
+        if self.action in ["seguir", "deixar_de_seguir"]:
+            return [ReadOnlyOrAuthenticated()]
+
+        return [permission() for permission in self.permission_classes]
 
 
 class PublicacaoViewSet(viewsets.ModelViewSet):
@@ -105,6 +112,13 @@ class PublicacaoViewSet(viewsets.ModelViewSet):
         publicacao = self.get_object()
         Reacao.objects.filter(usuario=request.user, publicacao=publicacao).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def get_permissions(self):
+
+        if self.action in ["reagir", "remover_reacao"]:
+            return [ReadOnlyOrAuthenticated()]
+
+        return [permission() for permission in self.permission_classes]
 
 
 class ComentarioViewSet(viewsets.ModelViewSet):
