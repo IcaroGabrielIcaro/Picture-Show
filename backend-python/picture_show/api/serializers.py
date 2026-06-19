@@ -13,6 +13,12 @@ class LoginSerializer(TokenObtainPairSerializer):
         token['admin'] = user.is_superuser
 
         return token
+    
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data["usuario"] = UsuarioSerializer(self.user, context={"request": self.context.get("request")}).data
+
+        return data
 
 
 class UsuarioCadastroSerializer(serializers.ModelSerializer):
@@ -43,6 +49,9 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
         if not request or not request.user.is_authenticated:
             return False
+
+        if request.user == obj:
+            return None
 
         return Seguidor.objects.filter(seguidor=request.user, seguindo=obj).exists()
     
