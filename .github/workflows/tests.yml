@@ -35,6 +35,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Criar diretório do banco
+        run: mkdir -p data
+
       - name: Executar migrações
         run: |
           python manage.py migrate
