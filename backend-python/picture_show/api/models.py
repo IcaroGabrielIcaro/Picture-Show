@@ -30,7 +30,7 @@ class UserManager(BaseUserManager):
 class Usuario(AbstractUser):
     nome = models.CharField(max_length=30)
     bio = models.TextField(blank=True, default="")
-    imagem = models.ImageField(upload_to="api/static/", null=True, blank=True)
+    imagem = models.ImageField(upload_to="usuarios/perfil/", null=True, blank=True)
 
     first_name = None
     last_name = None
@@ -55,7 +55,7 @@ class Usuario(AbstractUser):
 
 class Publicacao(models.Model):
     descricao = models.CharField(max_length=1200)
-    imagem = models.ImageField(upload_to="api/static/", null=True, blank=True)
+    imagem = models.ImageField(upload_to="publicacoes/", null=True, blank=True)
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="publicacoes")
     publicado_em = models.DateTimeField(default=timezone.now)
 
