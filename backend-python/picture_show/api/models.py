@@ -116,3 +116,12 @@ class Reacao(models.Model):
                 name="unique_reacao"
             )
         ]
+
+
+class Dispositivo(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="dispositivos")
+    
+    token = models.TextField(unique=True)
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)

@@ -107,3 +107,7 @@ class PublicacaoSerializer(serializers.ModelSerializer):
             return None
 
         return reacao.tipo
+    
+
+class RegistroTokenSerializer(serializers.Serializer):
+    token = serializers.CharField()
