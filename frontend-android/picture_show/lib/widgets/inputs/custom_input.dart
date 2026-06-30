@@ -3,6 +3,7 @@ import 'package:picture_show/theme/app_colors.dart';
 import 'package:picture_show/theme/app_radius.dart';
 import 'package:picture_show/theme/app_spacing.dart';
 import 'package:picture_show/theme/app_text_styles.dart';
+import 'package:picture_show/widgets/feedback/info_tooltip.dart';
 
 /// Campo de entrada padrão utilizado em todo o aplicativo.
 ///
@@ -46,6 +47,9 @@ class CustomInput extends StatefulWidget {
   /// Callback ao finalizar edição.
   final void Function(String)? onFieldSubmitted;
 
+  /// Texto de ajuda do input
+  final String? helpText;
+
   const CustomInput({
     super.key,
     required this.label,
@@ -58,6 +62,7 @@ class CustomInput extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.validator,
     this.onFieldSubmitted,
+    this.helpText,
   });
 
   @override
@@ -72,9 +77,24 @@ class _CustomInputState extends State<CustomInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: AppTextStyles.label.copyWith(color: AppColors.textPrimary),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                widget.label,
+                style: AppTextStyles.label.copyWith(
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ),
+
+            if (widget.helpText != null) ...[
+              const SizedBox(width: AppSpacing.sm),
+
+              InfoTooltip(message: widget.helpText!),
+            ],
+          ],
         ),
 
         const SizedBox(height: AppSpacing.xs),

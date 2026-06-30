@@ -130,9 +130,10 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:52282',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:52282',
+# ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 SECURE_PROXY_SSL_HEADER = (
     "HTTP_X_FORWARDED_PROTO",

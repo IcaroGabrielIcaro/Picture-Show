@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:picture_show/theme/app_colors.dart';
 import 'package:picture_show/theme/app_radius.dart';
 import 'package:picture_show/theme/app_text_styles.dart';
-import 'package:picture_show/widgets/custom_button/custom_button_state.dart';
+import 'package:picture_show/widgets/buttons/custom_button_state.dart';
 
 /// Botão padrão utilizado em todo o aplicativo.
 ///

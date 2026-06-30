@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
-import 'package:picture_show/widgets/custom_button/custom_button.dart';
-import 'package:picture_show/widgets/custom_input/custom_input.dart';
+import 'package:picture_show/widgets/buttons/custom_button.dart';
+import 'package:picture_show/widgets/inputs/custom_input.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
 import 'package:picture_show/theme/app_spacing.dart';
 import 'package:provider/provider.dart';
@@ -86,6 +87,9 @@ class _CadastroState extends State<Cadastro> {
             controller: usernameController,
             label: 'Nome de usuário',
             hintText: 'Digite seu nome de usuário',
+            helpText:
+                'Será utilizado para fazer login e identificar seu perfil. '
+                'Não pode ser alterado facilmente e deve ser único.',
             keyboardType: TextInputType.text,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -159,7 +163,16 @@ class _CadastroState extends State<Cadastro> {
             },
           ),
 
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.xs),
+
+          TextButton(
+            onPressed: () {
+              context.go('/login');
+            },
+            child: const Text('Já possuo conta'),
+          ),
+
+          const SizedBox(height: AppSpacing.xs),
 
           CustomButton(
             text: 'Criar conta',

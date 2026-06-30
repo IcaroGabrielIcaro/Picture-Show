@@ -7,9 +7,36 @@ class DioExceptionMapper {
     final data = e.response?.data;
 
     if (data is Map<String, dynamic>) {
+      // APIs que retornam "message" ou "erro"
+      if (data.containsKey('message') || data.containsKey('erro')) {
+        return ApiException(
+          statusCode: e.response?.statusCode,
+          message: data['erro'] ?? data['message'],
+        );
+      }
+
+      // DRF: erros de validação por campo
+      final fieldErrors = <String, List<String>>{};
+      final messages = <String>[];
+
+      data.forEach((key, value) {
+        if (value is List) {
+          final errors = value.map((e) => e.toString()).toList();
+
+          fieldErrors[key] = errors;
+          messages.addAll(errors);
+        } else {
+          final error = value.toString();
+
+          fieldErrors[key] = [error];
+          messages.add(error);
+        }
+      });
+
       return ApiException(
         statusCode: e.response?.statusCode,
-        message: data['erro'] ?? data['message'] ?? 'Erro desconhecido.',
+        message: messages.join('\n'),
+        fieldErrors: fieldErrors,
       );
     }
 

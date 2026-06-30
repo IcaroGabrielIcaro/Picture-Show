@@ -1,32 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:picture_show/core/network/dio_client.dart';
-import 'package:picture_show/features/autenticacao/autenticacao.dart';
+import 'package:picture_show/core/routes/create_router.dart';
+import 'package:picture_show/core/storage/secure_storage_service.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final dio = DioClient.instance;
+
+  final secureStorage = SecureStorageService();
+
+  final authService = AutenticacaoService(dio);
+
+  final authProvider = AutenticacaoProvider(authService, secureStorage);
+
+  runApp(MyApp(authProvider: authProvider));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AutenticacaoProvider authProvider;
+
+  const MyApp({super.key, required this.authProvider});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        Provider<AutenticacaoService>(
-          create: (_) => AutenticacaoService(DioClient.dio),
-        ),
-        ChangeNotifierProvider<AutenticacaoProvider>(
-          create: (context) =>
-              AutenticacaoProvider(context.read<AutenticacaoService>()),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: const Autenticacao(),
+      providers: [ChangeNotifierProvider.value(value: authProvider)],
+      child: Builder(
+        builder: (context) {
+          final router = createRouter(context.read<AutenticacaoProvider>());
+
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routerConfig: router,
+          );
+        },
       ),
     );
   }

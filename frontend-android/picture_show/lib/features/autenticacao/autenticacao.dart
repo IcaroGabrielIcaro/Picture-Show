@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/autenticacao/widgets/cadastro.dart';
+import 'package:picture_show/features/autenticacao/widgets/login.dart';
 import 'package:picture_show/theme/app_radius.dart';
 import 'package:picture_show/theme/app_text_styles.dart';
 import 'package:picture_show/theme/app_colors.dart';
@@ -10,6 +12,10 @@ class Autenticacao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).matchedLocation;
+
+    final isLogin = location == '/login';
+
     return Scaffold(
       backgroundColor: AppColors.background,
 
@@ -50,9 +56,7 @@ class Autenticacao extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(AppRadius.lg),
-
                       border: Border.all(color: AppColors.border),
-
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.04),
@@ -62,7 +66,12 @@ class Autenticacao extends StatelessWidget {
                       ],
                     ),
 
-                    child: const Cadastro(),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      child: isLogin
+                          ? const Login(key: ValueKey('login'))
+                          : const Cadastro(key: ValueKey('cadastro')),
+                    ),
                   ),
                 ],
               ),
