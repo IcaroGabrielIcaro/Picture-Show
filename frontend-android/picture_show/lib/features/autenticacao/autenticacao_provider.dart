@@ -12,43 +12,27 @@ class AutenticacaoProvider extends ChangeNotifier {
   AutenticacaoProvider(this.service, this.storage);
 
   AutenticacaoState _state = const AutenticacaoState();
-
   Usuario? _usuario;
 
   AutenticacaoState get state => _state;
 
   Usuario? get usuario => _usuario;
 
-  Future<void> cadastro({
+  bool get isAuthenticated => _usuario != null;
+
+  Future<void> login({
     required String username,
-    required String nome,
-    required String senha,
+    required String password,
   }) async {
     _state = const AutenticacaoState(status: AutenticacaoStatus.loading);
 
     notifyListeners();
 
     try {
-      await service.cadastrar(username: username, nome: nome, senha: senha);
-
-      _state = const AutenticacaoState(status: AutenticacaoStatus.success);
-    } on ApiException catch (e) {
-      _state = AutenticacaoState(
-        status: AutenticacaoStatus.error,
-        message: e.message,
+      final response = await service.login(
+        username: username,
+        password: password,
       );
-    }
-
-    notifyListeners();
-  }
-
-  Future<void> login({required String username, required String password}) async {
-    _state = const AutenticacaoState(status: AutenticacaoStatus.loading);
-
-    notifyListeners();
-
-    try {
-      final response = await service.login(username: username, password: password);
 
       await storage.salvarAccessToken(response.accessToken);
 

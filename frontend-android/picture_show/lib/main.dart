@@ -17,18 +17,26 @@ Future<void> main() async {
 
   final authProvider = AutenticacaoProvider(authService, secureStorage);
 
-  runApp(MyApp(authProvider: authProvider));
+  runApp(MyApp(authService: authService, authProvider: authProvider));
 }
 
 class MyApp extends StatelessWidget {
+  final AutenticacaoService authService;
   final AutenticacaoProvider authProvider;
 
-  const MyApp({super.key, required this.authProvider});
+  const MyApp({
+    super.key,
+    required this.authService,
+    required this.authProvider,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: authProvider)],
+      providers: [
+        Provider<AutenticacaoService>.value(value: authService),
+        ChangeNotifierProvider<AutenticacaoProvider>.value(value: authProvider),
+      ],
       child: Builder(
         builder: (context) {
           final router = createRouter(context.read<AutenticacaoProvider>());

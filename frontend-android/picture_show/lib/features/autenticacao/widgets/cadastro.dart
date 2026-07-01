@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:picture_show/core/exceptions/api_exception.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
+import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:picture_show/widgets/buttons/custom_button.dart';
 import 'package:picture_show/widgets/inputs/custom_input.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
@@ -43,35 +45,28 @@ class _CadastroState extends State<Cadastro> {
       return;
     }
 
-    final provider = context.read<AutenticacaoProvider>();
+    final service = context.read<AutenticacaoService>();
 
-    await provider.cadastro(
-      username: usernameController.text.trim(),
-      nome: nomeController.text.trim(),
-      senha: senhaController.text,
-    );
+    try {
+      await service.cadastrar(
+        username: usernameController.text.trim(),
+        nome: nomeController.text.trim(),
+        senha: senhaController.text,
+      );
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    switch (provider.state.status) {
-      case AutenticacaoStatus.success:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cadastro realizado com sucesso!')),
-        );
-        break;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Cadastro realizado com sucesso!')),
+      );
 
-      case AutenticacaoStatus.error:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              provider.state.message ?? 'Não foi possível realizar o cadastro.',
-            ),
-          ),
-        );
-        break;
+      context.goNamed('login');
+    } on ApiException catch (e) {
+      if (!mounted) return;
 
-      default:
-        break;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message)));
     }
   }
 
@@ -92,12 +87,18 @@ class _CadastroState extends State<Cadastro> {
                 'Não pode ser alterado facilmente e deve ser único.',
             keyboardType: TextInputType.text,
             validator: (value) {
+              final username = value?.trim() ?? '';
+
               if (value == null || value.trim().isEmpty) {
                 return 'Informe um nome de usuário.';
               }
 
               if (value.trim().length < 3) {
                 return 'Mínimo de 3 caracteres.';
+              }
+
+              if (!RegExp(r'^[\w.@+-]+$').hasMatch(username)) {
+                return 'Apenas letras, números e os caracteres @ . + - _.';
               }
 
               return null;
