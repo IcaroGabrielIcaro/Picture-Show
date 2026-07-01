@@ -1,15 +1,15 @@
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/autenticacao/autenticacao.dart';
-import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
+import 'package:picture_show/providers/usuario_provider.dart';
 
-GoRouter createRouter(AutenticacaoProvider authProvider) {
+GoRouter createRouter(UsuarioProvider usuarioProvider) {
   return GoRouter(
     initialLocation: '/login',
 
-    refreshListenable: authProvider,
+    refreshListenable: usuarioProvider,
 
     redirect: (context, state) {
-      final isAuthenticated = authProvider.usuario != null;
+      final isAuthenticated = usuarioProvider.isAuthenticated;
 
       final isLogin = state.matchedLocation == '/login';
       final isCadastro = state.matchedLocation == '/cadastro';

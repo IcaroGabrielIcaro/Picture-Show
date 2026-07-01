@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
+import 'package:picture_show/providers/usuario_provider.dart';
 import 'package:picture_show/widgets/buttons/custom_button.dart';
 import 'package:picture_show/widgets/inputs/custom_input.dart';
 import 'package:picture_show/theme/app_spacing.dart';
@@ -40,11 +41,16 @@ class _LoginState extends State<Login> {
     }
 
     final provider = context.read<AutenticacaoProvider>();
+    final usuarioProvider = context.read<UsuarioProvider>();
 
-    await provider.login(
+    final response = await provider.login(
       username: usernameController.text.trim(),
       password: passwordController.text,
     );
+
+    if (response != null) {
+      usuarioProvider.definirUsuario(response.usuario);
+    }
 
     if (!mounted) return;
 

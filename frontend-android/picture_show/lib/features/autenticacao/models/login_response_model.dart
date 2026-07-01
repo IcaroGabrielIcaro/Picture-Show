@@ -1,4 +1,4 @@
-import 'package:picture_show/features/autenticacao/models/usuario_response_model.dart';
+import 'package:picture_show/models/usuario_response_model.dart';
 
 /// Representa a resposta retornada pela API após uma autenticação.
 ///
