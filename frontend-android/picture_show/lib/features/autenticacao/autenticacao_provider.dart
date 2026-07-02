@@ -4,6 +4,8 @@ import 'package:picture_show/core/storage/secure_storage_service.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:picture_show/features/autenticacao/models/login_response_model.dart';
+import 'package:picture_show/models/usuario_response_model.dart';
+import 'package:picture_show/providers/usuario_provider.dart';
 
 class AutenticacaoProvider extends ChangeNotifier {
   final AutenticacaoService service;
@@ -54,5 +56,20 @@ class AutenticacaoProvider extends ChangeNotifier {
     _state = const AutenticacaoState();
 
     notifyListeners();
+  }
+
+  Future<Usuario?> restaurarSessao() async {
+    final token = await storage.obterAccessToken();
+
+    if (token == null) {
+      return null;
+    }
+
+    try {
+      return await service.obterUsuarioLogado();
+    } on ApiException {
+      await storage.limpar();
+      return null;
+    }
   }
 }

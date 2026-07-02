@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/features/feed/models/publicacao.dart';
 import 'package:picture_show/features/feed/widgets/avatar_usuario.dart';
 import 'package:picture_show/theme/app_colors.dart';
 import 'package:picture_show/theme/app_text_styles.dart';

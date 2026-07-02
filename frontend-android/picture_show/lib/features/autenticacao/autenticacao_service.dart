@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:picture_show/core/exceptions/dio_exception_mapper.dart';
 import 'package:picture_show/features/autenticacao/models/login_response_model.dart';
+import 'package:picture_show/models/usuario_response_model.dart';
 
 class AutenticacaoService {
   final Dio dio;
@@ -39,6 +40,16 @@ class AutenticacaoService {
       );
 
       return LoginResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw DioExceptionMapper.map(e);
+    }
+  }
+
+  Future<Usuario> obterUsuarioLogado() async {
+    try {
+      final response = await dio.get('usuarios/me/');
+
+      return Usuario.fromJson(response.data);
     } on DioException catch (e) {
       throw DioExceptionMapper.map(e);
     }

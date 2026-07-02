@@ -2,8 +2,9 @@ from rest_framework import (status, views, viewsets, mixins)
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .firebase import FirebaseService
 
 from .models import (Usuario, Publicacao, Comentario, Seguidor, Reacao, Dispositivo)
@@ -14,6 +15,11 @@ from .permissions import (ReadOnlyOrAuthenticated, IsAuthorOrStaffOrReadOnly, Is
 @extend_schema(tags=["autenticação"])
 class LoginView(TokenObtainPairView):
     serializer_class = LoginSerializer
+
+
+@extend_schema(tags=["autenticação"])
+class RefreshTokenView(TokenRefreshView):
+    pass
 
 
 class SignupView(views.APIView):
@@ -68,6 +74,13 @@ class UsuarioViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Up
             return [ReadOnlyOrAuthenticated()]
 
         return [permission() for permission in self.permission_classes]
+
+    @extend_schema(tags=["usuarios"], responses=UsuarioSerializer)
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+    def me(self, request): 
+        serializer = self.get_serializer(request.user, context={"request": request})
+
+        return Response(serializer.data)
 
 
 class PublicacaoViewSet(viewsets.ModelViewSet):

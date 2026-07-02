@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:picture_show/features/autenticacao/autenticacao.dart';
+import 'package:picture_show/features/feed/feed.dart';
 import 'package:picture_show/providers/usuario_provider.dart';
 
 GoRouter createRouter(UsuarioProvider usuarioProvider) {
@@ -11,20 +12,23 @@ GoRouter createRouter(UsuarioProvider usuarioProvider) {
     redirect: (context, state) {
       final isAuthenticated = usuarioProvider.isAuthenticated;
 
-      final isLogin = state.matchedLocation == '/login';
-      final isCadastro = state.matchedLocation == '/cadastro';
+      final location = state.matchedLocation;
 
-      // Se NÃO está logado, só pode acessar login ou cadastro
+      final isLogin = location == '/login';
+      final isCadastro = location == '/cadastro';
+
+      // Usuário NÃO autenticado
       if (!isAuthenticated) {
         if (isLogin || isCadastro) {
           return null;
         }
+
         return '/login';
       }
 
-      // Se está logado, impede acessar login/cadastro
+      // Usuário autenticado
       if (isLogin || isCadastro) {
-        return '/login'; // depois você troca para '/feed'
+        return '/feed';
       }
 
       return null;
@@ -36,10 +40,17 @@ GoRouter createRouter(UsuarioProvider usuarioProvider) {
         name: 'login',
         builder: (context, state) => const Autenticacao(),
       ),
+
       GoRoute(
         path: '/cadastro',
         name: 'cadastro',
         builder: (context, state) => const Autenticacao(),
+      ),
+
+      GoRoute(
+        path: '/feed',
+        name: 'feed',
+        builder: (context, state) => const Feed(),
       ),
     ],
   );
