@@ -5,7 +5,6 @@ import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:picture_show/features/autenticacao/models/login_response_model.dart';
 import 'package:picture_show/models/usuario_response_model.dart';
-import 'package:picture_show/providers/usuario_provider.dart';
 
 class AutenticacaoProvider extends ChangeNotifier {
   final AutenticacaoService service;

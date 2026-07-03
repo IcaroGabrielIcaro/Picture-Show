@@ -1,4 +1,4 @@
-import 'package:picture_show/models/usuario_response_model.dart';
+import 'package:picture_show/models/usuario_resumo_resumo_model.dart';
 
 /// Representa uma publicação exibida no feed.
 class Publicacao {
@@ -12,7 +12,7 @@ class Publicacao {
   final String imagem;
 
   /// Autor da publicação.
-  final Usuario autor;
+  final UsuarioResumo autor;
 
   /// Quantidade de curtidas.
   final int likes;
@@ -52,7 +52,7 @@ class Publicacao {
       id: json['id'] as int,
       descricao: json['descricao'] as String? ?? '',
       imagem: json['imagem'] as String? ?? '',
-      autor: Usuario.fromJson(json['autor']),
+      autor: UsuarioResumo.fromJson(json['autor']),
       likes: int.tryParse(json['likes'].toString()) ?? 0,
       dislikes: int.tryParse(json['dislikes'].toString()) ?? 0,
       comentarios: int.tryParse(json['comentarios'].toString()) ?? 0,
@@ -67,7 +67,38 @@ class Publicacao {
       'id': id,
       'descricao': descricao,
       'imagem': imagem,
-      'autor': autor.toJson(),
+      ...autor.toDatabase(),
+      'likes': likes,
+      'dislikes': dislikes,
+      'comentarios': comentarios,
+      'minha_reacao': minhaReacao,
+      'publicado_em': publicadoEm.toIso8601String(),
+    };
+  }
+
+  factory Publicacao.fromDatabase(Map<String, dynamic> map) {
+    return Publicacao(
+      id: map['id'] as int,
+      descricao: map['descricao'] as String? ?? '',
+      imagem: map['imagem'] as String? ?? '',
+      autor: UsuarioResumo.fromDatabase(map),
+      likes: map['likes'] as int? ?? 0,
+      dislikes: map['dislikes'] as int? ?? 0,
+      comentarios: map['comentarios'] as int? ?? 0,
+      minhaReacao: map['minha_reacao'] as String?,
+      publicadoEm: DateTime.parse(map['publicado_em'] as String),
+    );
+  }
+
+  Map<String, dynamic> toDatabase() {
+    return {
+      'id': id,
+      'descricao': descricao,
+      'imagem': imagem,
+      'autor_id': autor.id,
+      'autor_username': autor.username,
+      'autor_nome': autor.nome,
+      'autor_imagem': autor.imagem,
       'likes': likes,
       'dislikes': dislikes,
       'comentarios': comentarios,
@@ -81,7 +112,7 @@ class Publicacao {
     int? id,
     String? descricao,
     String? imagem,
-    Usuario? autor,
+    UsuarioResumo? autor,
     int? likes,
     int? dislikes,
     int? comentarios,

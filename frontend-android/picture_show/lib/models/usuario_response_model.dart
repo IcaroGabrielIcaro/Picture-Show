@@ -71,6 +71,34 @@ class Usuario {
     };
   }
 
+  factory Usuario.fromDatabase(Map<String, dynamic> map) {
+    return Usuario(
+      id: map['id'] as int,
+      username: map['username'] as String,
+      nome: map['nome'] as String,
+      bio: map['bio'] as String? ?? '',
+      imagem: map['imagem'] as String?,
+      seguidores: map['seguidores'] as int? ?? 0,
+      seguindo: map['seguindo'] as int? ?? 0,
+      publicacoes: map['publicacoes'] as int? ?? 0,
+      euSigo: (map['eu_sigo'] as int? ?? 0) == 1,
+    );
+  }
+
+  Map<String, dynamic> toDatabase() {
+    return {
+      'id': id,
+      'username': username,
+      'nome': nome,
+      'bio': bio,
+      'imagem': imagem,
+      'seguidores': seguidores,
+      'seguindo': seguindo,
+      'publicacoes': publicacoes,
+      'eu_sigo': euSigo ? 1 : 0,
+    };
+  }
+
   /// Cria uma cópia alterando apenas os campos desejados.
   Usuario copyWith({
     int? id,
