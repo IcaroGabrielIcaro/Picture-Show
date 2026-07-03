@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:picture_show/core/exceptions/api_exception.dart';
-import 'package:picture_show/features/feed/feed_service.dart';
+import 'package:picture_show/features/feed/feed_repository.dart';
 import 'package:picture_show/features/feed/feed_state.dart';
 
 class FeedProvider extends ChangeNotifier {
-  final FeedService service;
+  final FeedRepository repository;
 
-  FeedProvider(this.service);
+  FeedProvider(this.repository);
 
   FeedState _state = const FeedState();
-
   FeedState get state => _state;
 
   int _paginaAtual = 1;
 
-  /// Carrega a primeira página.
   Future<void> carregarFeed() async {
     _paginaAtual = 1;
 
@@ -28,48 +25,43 @@ class FeedProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await service.listarPublicacoes(page: _paginaAtual);
+      final publicacoes = await repository.listarFeed(page: _paginaAtual);
 
       _state = _state.copyWith(
         status: FeedStatus.success,
-        publicacoes: response.results,
-        possuiMaisPaginas: response.next != null,
+        publicacoes: publicacoes,
+        possuiMaisPaginas: publicacoes.isNotEmpty,
       );
-    } on ApiException catch (e) {
-      _state = _state.copyWith(status: FeedStatus.error, message: e.message);
+    } catch (e) {
+      _state = _state.copyWith(status: FeedStatus.error, message: e.toString());
     }
 
     notifyListeners();
   }
 
-  /// Busca a próxima página do feed.
   Future<void> carregarMais() async {
-    if (_state.carregandoMais) return;
-
-    if (!_state.possuiMaisPaginas) return;
+    if (_state.carregandoMais || !_state.possuiMaisPaginas) return;
 
     _state = _state.copyWith(carregandoMais: true);
-
     notifyListeners();
 
     try {
-      final response = await service.listarPublicacoes(page: ++_paginaAtual);
+      final publicacoes = await repository.listarFeed(page: ++_paginaAtual);
 
       _state = _state.copyWith(
         carregandoMais: false,
-        publicacoes: [..._state.publicacoes, ...response.results],
-        possuiMaisPaginas: response.next != null,
+        publicacoes: [..._state.publicacoes, ...publicacoes],
+        possuiMaisPaginas: publicacoes.isNotEmpty,
       );
-    } on ApiException catch (e) {
+    } catch (e) {
       _paginaAtual--;
 
-      _state = _state.copyWith(carregandoMais: false, message: e.message);
+      _state = _state.copyWith(carregandoMais: false, message: e.toString());
     }
 
     notifyListeners();
   }
 
-  /// Atualiza o feed (pull-to-refresh).
   Future<void> atualizar() async {
     await carregarFeed();
   }

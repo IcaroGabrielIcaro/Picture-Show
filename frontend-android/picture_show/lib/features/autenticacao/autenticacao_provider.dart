@@ -13,7 +13,6 @@ class AutenticacaoProvider extends ChangeNotifier {
   AutenticacaoProvider(this.service, this.storage);
 
   AutenticacaoState _state = const AutenticacaoState();
-
   AutenticacaoState get state => _state;
 
   Future<LoginResponse?> login({
@@ -30,6 +29,7 @@ class AutenticacaoProvider extends ChangeNotifier {
         password: password,
       );
 
+      // salva tokens
       await storage.salvarAccessToken(response.accessToken);
       await storage.salvarRefreshToken(response.refreshToken);
 
@@ -43,9 +43,18 @@ class AutenticacaoProvider extends ChangeNotifier {
         status: AutenticacaoStatus.error,
         message: e.message,
       );
-    }
 
-    notifyListeners();
+      notifyListeners();
+      return null;
+    } catch (e) {
+      _state = AutenticacaoState(
+        status: AutenticacaoStatus.error,
+        message: "Erro inesperado",
+      );
+
+      notifyListeners();
+      return null;
+    }
   }
 
   Future<void> logout() async {
@@ -53,10 +62,10 @@ class AutenticacaoProvider extends ChangeNotifier {
     await storage.removerRefreshToken();
 
     _state = const AutenticacaoState();
-
     notifyListeners();
   }
 
+  /// tenta restaurar sessão ao abrir o app
   Future<Usuario?> restaurarSessao() async {
     final token = await storage.obterAccessToken();
 
@@ -67,6 +76,9 @@ class AutenticacaoProvider extends ChangeNotifier {
     try {
       return await service.obterUsuarioLogado();
     } on ApiException {
+      await storage.limpar();
+      return null;
+    } catch (_) {
       await storage.limpar();
       return null;
     }
