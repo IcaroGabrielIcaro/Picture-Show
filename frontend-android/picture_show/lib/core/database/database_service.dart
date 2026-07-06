@@ -26,7 +26,6 @@ class DatabaseService {
   }
 
   static Future<void> _onCreate(Database db, int version) async {
-    // Usuário logado
     await db.execute('''
       CREATE TABLE usuario (
         id INTEGER PRIMARY KEY,
@@ -38,27 +37,6 @@ class DatabaseService {
         seguindo INTEGER NOT NULL,
         publicacoes INTEGER NOT NULL,
         eu_sigo INTEGER NOT NULL
-      )
-    ''');
-
-    // Feed
-    await db.execute('''
-      CREATE TABLE publicacao (
-        id INTEGER PRIMARY KEY,
-        descricao TEXT,
-        imagem TEXT NOT NULL,
-
-        autor_id INTEGER NOT NULL,
-        autor_username TEXT NOT NULL,
-        autor_nome TEXT NOT NULL,
-        autor_imagem TEXT,
-
-        likes INTEGER NOT NULL,
-        dislikes INTEGER NOT NULL,
-        comentarios INTEGER NOT NULL,
-        minha_reacao TEXT,
-
-        publicado_em TEXT NOT NULL
       )
     ''');
   }

@@ -4,7 +4,6 @@ import 'package:picture_show/core/routes/create_router.dart';
 import 'package:picture_show/core/storage/secure_storage_service.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
-import 'package:picture_show/features/feed/feed_local_service.dart';
 import 'package:picture_show/features/feed/feed_provider.dart';
 import 'package:picture_show/features/feed/feed_repository.dart';
 import 'package:picture_show/features/feed/feed_service.dart';
@@ -25,7 +24,6 @@ Future<void> main() async {
   // DATABASE SERVICES
   // =========================
   final usuarioLocalService = UsuarioLocalService();
-  final feedLocalService = FeedLocalService();
 
   // =========================
   // DIO
@@ -46,17 +44,18 @@ Future<void> main() async {
     local: usuarioLocalService,
   );
 
-  final feedRepository = FeedRepository(
-    api: feedService,
-    local: feedLocalService,
-  );
+  final feedRepository = FeedRepository(api: feedService);
 
   // =========================
   // PROVIDERS
   // =========================
   final usuarioProvider = UsuarioProvider(usuarioRepository);
 
-  final authProvider = AutenticacaoProvider(authService, secureStorage);
+  final authProvider = AutenticacaoProvider(
+    authService,
+    secureStorage,
+    usuarioRepository,
+  );
 
   final feedProvider = FeedProvider(feedRepository);
 

@@ -5,12 +5,14 @@ import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:picture_show/features/autenticacao/models/login_response_model.dart';
 import 'package:picture_show/models/usuario_response_model.dart';
+import 'package:picture_show/repositories/usuario_repository.dart';
 
 class AutenticacaoProvider extends ChangeNotifier {
   final AutenticacaoService service;
   final SecureStorageService storage;
+  final UsuarioRepository usuarioRepository;
 
-  AutenticacaoProvider(this.service, this.storage);
+  AutenticacaoProvider(this.service, this.storage, this.usuarioRepository);
 
   AutenticacaoState _state = const AutenticacaoState();
   AutenticacaoState get state => _state;
@@ -32,6 +34,8 @@ class AutenticacaoProvider extends ChangeNotifier {
       // salva tokens
       await storage.salvarAccessToken(response.accessToken);
       await storage.salvarRefreshToken(response.refreshToken);
+
+      await usuarioRepository.salvarLocal(response.usuario);
 
       _state = const AutenticacaoState(status: AutenticacaoStatus.success);
 
@@ -93,6 +97,8 @@ class AutenticacaoProvider extends ChangeNotifier {
     await storage.removerAccessToken();
     await storage.removerRefreshToken();
 
+    await usuarioRepository.logoutLocal();
+
     _state = const AutenticacaoState();
     notifyListeners();
   }
@@ -106,12 +112,10 @@ class AutenticacaoProvider extends ChangeNotifier {
     }
 
     try {
-      return await service.obterUsuarioLogado();
+      return await usuarioRepository.obterUsuarioLogado();
     } on ApiException {
-      await storage.limpar();
       return null;
     } catch (_) {
-      await storage.limpar();
       return null;
     }
   }

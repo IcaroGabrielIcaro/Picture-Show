@@ -4,6 +4,7 @@ import 'package:picture_show/features/feed/feed_state.dart';
 import 'package:picture_show/features/feed/widgets/publicacao_card.dart';
 import 'package:picture_show/theme/app_colors.dart';
 import 'package:picture_show/theme/app_spacing.dart';
+import 'package:picture_show/widgets/feedback/feedback.dart';
 import 'package:provider/provider.dart';
 
 /// Tela responsável por exibir o feed de publicações.
@@ -70,10 +71,28 @@ class _FeedState extends State<Feed> {
             child: CircularProgressIndicator(),
           ),
 
-          FeedStatus.error => _ErrorFeed(
-            message: provider.state.message,
-            onRetry: provider.carregarFeed,
-          ),
+          FeedStatus.error => switch (provider.state.errorType) {
+            FeedErrorType.network => FeedbackPage(
+              icon: Icons.cloud_off_outlined,
+              title: 'Você está sem conexão',
+              message: 'Conecte-se à internet e tente novamente.',
+              onPressed: provider.carregarFeed,
+            ),
+
+            FeedErrorType.server => FeedbackPage(
+              icon: Icons.dns_outlined,
+              title: 'Servidor indisponível',
+              message: 'Não foi possível conectar ao servidor.',
+              onPressed: provider.carregarFeed,
+            ),
+
+            _ => FeedbackPage(
+              icon: Icons.error_outline,
+              title: 'Algo deu errado',
+              message: 'Tente novamente em alguns instantes.',
+              onPressed: provider.carregarFeed,
+            ),
+          },
 
           _ => RefreshIndicator(
             onRefresh: provider.atualizar,
@@ -85,7 +104,7 @@ class _FeedState extends State<Feed> {
                     itemCount:
                         provider.state.publicacoes.length +
                         (provider.state.carregandoMais ? 1 : 0),
-                    separatorBuilder: (_, __) =>
+                    separatorBuilder: (_, _) =>
                         const SizedBox(height: AppSpacing.md),
                     itemBuilder: (context, index) {
                       if (index == provider.state.publicacoes.length) {
@@ -135,42 +154,6 @@ class _EmptyFeed extends StatelessWidget {
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ErrorFeed extends StatelessWidget {
-  final String? message;
-  final VoidCallback onRetry;
-
-  const _ErrorFeed({required this.message, required this.onRetry});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.error_outline, size: 64, color: AppColors.error),
-
-            const SizedBox(height: AppSpacing.md),
-
-            Text(
-              message ?? 'Não foi possível carregar o feed.',
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: AppSpacing.lg),
-
-            ElevatedButton(
-              onPressed: onRetry,
-              child: const Text('Tentar novamente'),
             ),
           ],
         ),

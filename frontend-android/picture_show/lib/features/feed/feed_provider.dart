@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_show/core/exceptions/api_exception.dart';
 import 'package:picture_show/features/feed/feed_repository.dart';
 import 'package:picture_show/features/feed/feed_state.dart';
 
@@ -32,8 +33,22 @@ class FeedProvider extends ChangeNotifier {
         publicacoes: publicacoes,
         possuiMaisPaginas: publicacoes.isNotEmpty,
       );
-    } catch (e) {
-      _state = _state.copyWith(status: FeedStatus.error, message: e.toString());
+    } on ApiException catch (e) {
+      _state = _state.copyWith(
+        status: FeedStatus.error,
+        errorType: switch (e.type) {
+          ApiErrorType.network => FeedErrorType.network,
+          ApiErrorType.server => FeedErrorType.server,
+          _ => FeedErrorType.unknown,
+        },
+        message: e.message,
+      );
+    } catch (_) {
+      _state = _state.copyWith(
+        status: FeedStatus.error,
+        errorType: FeedErrorType.unknown,
+        message: 'Erro inesperado.',
+      );
     }
 
     notifyListeners();
