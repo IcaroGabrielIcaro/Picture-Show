@@ -57,6 +57,38 @@ class AutenticacaoProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> cadastrar({
+    required String username,
+    required String nome,
+    required String senha,
+  }) async {
+    _state = const AutenticacaoState(status: AutenticacaoStatus.loading);
+
+    notifyListeners();
+
+    try {
+      await service.cadastrar(username: username, nome: nome, senha: senha);
+
+      _state = const AutenticacaoState(status: AutenticacaoStatus.success);
+
+      notifyListeners();
+    } on ApiException catch (e) {
+      _state = AutenticacaoState(
+        status: AutenticacaoStatus.error,
+        message: e.message,
+      );
+
+      notifyListeners();
+    } catch (_) {
+      _state = const AutenticacaoState(
+        status: AutenticacaoStatus.error,
+        message: 'Erro inesperado',
+      );
+
+      notifyListeners();
+    }
+  }
+
   Future<void> logout() async {
     await storage.removerAccessToken();
     await storage.removerRefreshToken();

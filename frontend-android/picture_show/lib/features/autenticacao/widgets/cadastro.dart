@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:picture_show/core/exceptions/api_exception.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
-import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:picture_show/widgets/buttons/custom_button.dart';
 import 'package:picture_show/widgets/inputs/custom_input.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
@@ -45,28 +43,38 @@ class _CadastroState extends State<Cadastro> {
       return;
     }
 
-    final service = context.read<AutenticacaoService>();
+    final provider = context.read<AutenticacaoProvider>();
 
-    try {
-      await service.cadastrar(
-        username: usernameController.text.trim(),
-        nome: nomeController.text.trim(),
-        senha: senhaController.text,
-      );
+    await provider.cadastrar(
+      username: usernameController.text.trim(),
+      nome: nomeController.text.trim(),
+      senha: senhaController.text,
+    );
 
-      if (!mounted) return;
+    if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Cadastro realizado com sucesso!')),
-      );
+    switch (provider.state.status) {
+      case AutenticacaoStatus.success:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Cadastro realizado com sucesso!')),
+        );
 
-      context.goNamed('login');
-    } on ApiException catch (e) {
-      if (!mounted) return;
+        context.goNamed('login');
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.message)));
+        break;
+
+      case AutenticacaoStatus.error:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              provider.state.message ?? 'Não foi possível realizar o cadastro.',
+            ),
+          ),
+        );
+        break;
+
+      default:
+        break;
     }
   }
 
