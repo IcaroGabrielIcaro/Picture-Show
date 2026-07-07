@@ -12,15 +12,11 @@ class FeedService {
   ///
   /// Exemplo:
   /// GET /publicacoes/?page=1
-  Future<PublicacoesResponse> listarPublicacoes({
-    int page = 1,
-  }) async {
+  Future<PublicacoesResponse> listarPublicacoes({int page = 1}) async {
     try {
       final response = await dio.get(
         'publicacoes/',
-        queryParameters: {
-          'page': page,
-        },
+        queryParameters: {'page': page},
       );
 
       return PublicacoesResponse.fromJson(response.data);

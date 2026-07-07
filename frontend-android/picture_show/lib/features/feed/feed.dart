@@ -4,7 +4,8 @@ import 'package:picture_show/features/feed/feed_state.dart';
 import 'package:picture_show/features/feed/widgets/publicacao_card.dart';
 import 'package:picture_show/theme/app_colors.dart';
 import 'package:picture_show/theme/app_spacing.dart';
-import 'package:picture_show/widgets/feedback/feedback.dart';
+import 'package:picture_show/widgets/feedback/feedback_builder.dart';
+import 'package:picture_show/widgets/header/header.dart';
 import 'package:provider/provider.dart';
 
 /// Tela responsável por exibir o feed de publicações.
@@ -57,42 +58,17 @@ class _FeedState extends State<Feed> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: AppColors.background,
-        title: const Text('Picture Show'),
-      ),
-
+      appBar: const Header(title: 'Picture Show'),
       body: SafeArea(
         child: switch (provider.state.status) {
           FeedStatus.loading => const Center(
             child: CircularProgressIndicator(),
           ),
 
-          FeedStatus.error => switch (provider.state.errorType) {
-            FeedErrorType.network => FeedbackPage(
-              icon: Icons.cloud_off_outlined,
-              title: 'Você está sem conexão',
-              message: 'Conecte-se à internet e tente novamente.',
-              onPressed: provider.carregarFeed,
-            ),
-
-            FeedErrorType.server => FeedbackPage(
-              icon: Icons.dns_outlined,
-              title: 'Servidor indisponível',
-              message: 'Não foi possível conectar ao servidor.',
-              onPressed: provider.carregarFeed,
-            ),
-
-            _ => FeedbackPage(
-              icon: Icons.error_outline,
-              title: 'Algo deu errado',
-              message: 'Tente novamente em alguns instantes.',
-              onPressed: provider.carregarFeed,
-            ),
-          },
+          FeedStatus.error => FeedbackBuilder.fromError(
+            error: provider.state.errorType,
+            onRetry: provider.carregarFeed,
+          ),
 
           _ => RefreshIndicator(
             onRefresh: provider.atualizar,
@@ -100,6 +76,7 @@ class _FeedState extends State<Feed> {
                 ? const _EmptyFeed()
                 : ListView.separated(
                     controller: _scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(AppSpacing.md),
                     itemCount:
                         provider.state.publicacoes.length +
@@ -131,33 +108,46 @@ class _EmptyFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.photo_library_outlined,
-              size: 64,
-              color: AppColors.textSecondary,
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.65,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.photo_library_outlined,
+                    size: 64,
+                    color: AppColors.textSecondary,
+                  ),
+
+                  const SizedBox(height: AppSpacing.md),
+
+                  Text(
+                    'Nenhuma publicação encontrada.',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+
+                  const SizedBox(height: AppSpacing.sm),
+
+                  Text(
+                    'Quando alguém compartilhar uma foto ela aparecerá aqui.\n\n'
+                    'Deslize para baixo para atualizar.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              'Nenhuma publicação encontrada.',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              'Quando alguém compartilhar uma foto ela aparecerá aqui.',
-              textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -36,17 +36,13 @@ class FeedProvider extends ChangeNotifier {
     } on ApiException catch (e) {
       _state = _state.copyWith(
         status: FeedStatus.error,
-        errorType: switch (e.type) {
-          ApiErrorType.network => FeedErrorType.network,
-          ApiErrorType.server => FeedErrorType.server,
-          _ => FeedErrorType.unknown,
-        },
+        errorType: e.type,
         message: e.message,
       );
     } catch (_) {
       _state = _state.copyWith(
         status: FeedStatus.error,
-        errorType: FeedErrorType.unknown,
+        errorType: ApiErrorType.unknown,
         message: 'Erro inesperado.',
       );
     }

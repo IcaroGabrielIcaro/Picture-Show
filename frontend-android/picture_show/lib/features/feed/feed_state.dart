@@ -1,8 +1,7 @@
+import 'package:picture_show/core/exceptions/api_exception.dart';
 import 'package:picture_show/features/feed/models/publicacao.dart';
 
 enum FeedStatus { initial, loading, success, error }
-
-enum FeedErrorType { network, server, unknown }
 
 class FeedState {
   final FeedStatus status;
@@ -10,7 +9,7 @@ class FeedState {
   final bool carregandoMais;
   final bool possuiMaisPaginas;
 
-  final FeedErrorType? errorType;
+  final ApiErrorType? errorType;
   final String? message;
 
   const FeedState({
@@ -27,7 +26,7 @@ class FeedState {
     List<Publicacao>? publicacoes,
     bool? carregandoMais,
     bool? possuiMaisPaginas,
-    FeedErrorType? errorType,
+    ApiErrorType? errorType,
     String? message,
   }) {
     return FeedState(
