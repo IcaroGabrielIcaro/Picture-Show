@@ -13,11 +13,7 @@ class Bootstrap {
 
     final dependencies = await Dependencies.create();
 
-    final usuario = await dependencies.authProvider.restaurarSessao();
-
-    if (usuario != null) {
-      dependencies.usuarioProvider.definirUsuario(usuario);
-    }
+    await dependencies.usuarioProvider.restaurarSessao();
 
     return App(
       authProvider: dependencies.authProvider,

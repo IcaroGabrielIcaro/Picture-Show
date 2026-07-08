@@ -1,4 +1,4 @@
-import 'package:picture_show/features/feed/models/publicacao.dart';
+import 'package:picture_show/models/publicacao.dart';
 
 /// Representa uma resposta paginada da listagem de publicações.
 class PublicacoesResponse {

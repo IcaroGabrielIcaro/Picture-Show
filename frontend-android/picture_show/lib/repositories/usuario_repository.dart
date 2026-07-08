@@ -1,3 +1,4 @@
+import 'package:picture_show/core/exceptions/api_exception.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:picture_show/services/usuario_local_service.dart';
 import 'package:picture_show/models/usuario_response_model.dart';
@@ -15,10 +16,14 @@ class UsuarioRepository {
       await local.salvar(usuario);
 
       return usuario;
-    } catch (e) {
-      final localUser = await local.obter();
+    } on ApiException catch (e) {
+      if (e.type == ApiErrorType.network) {
+        final localUser = await local.obter();
 
-      if (localUser != null) return localUser;
+        if (localUser != null) {
+          return localUser;
+        }
+      }
 
       rethrow;
     }

@@ -41,6 +41,7 @@ class UsuarioProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (_) {
+      await repository.logoutLocal();
       _usuario = null;
       notifyListeners();
       return false;

@@ -1,5 +1,5 @@
 import 'package:picture_show/features/feed/feed_service.dart';
-import 'package:picture_show/features/feed/models/publicacao.dart';
+import 'package:picture_show/models/publicacao.dart';
 
 class FeedRepository {
   final FeedService api;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:picture_show/features/feed/models/publicacao.dart';
+import 'package:picture_show/models/publicacao.dart';
 import 'package:picture_show/features/feed/widgets/publicacao_descricao.dart';
 import 'package:picture_show/features/feed/widgets/publicacao_header.dart';
 import 'package:picture_show/features/feed/widgets/publicacao_imagem.dart';

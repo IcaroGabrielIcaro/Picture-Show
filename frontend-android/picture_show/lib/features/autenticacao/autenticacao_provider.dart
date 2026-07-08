@@ -4,7 +4,6 @@ import 'package:picture_show/core/storage/secure_storage_service.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_state.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
 import 'package:picture_show/features/autenticacao/models/login_response_model.dart';
-import 'package:picture_show/models/usuario_response_model.dart';
 import 'package:picture_show/repositories/usuario_repository.dart';
 
 class AutenticacaoProvider extends ChangeNotifier {
@@ -97,26 +96,7 @@ class AutenticacaoProvider extends ChangeNotifier {
     await storage.removerAccessToken();
     await storage.removerRefreshToken();
 
-    await usuarioRepository.logoutLocal();
-
     _state = const AutenticacaoState();
     notifyListeners();
-  }
-
-  /// tenta restaurar sessão ao abrir o app
-  Future<Usuario?> restaurarSessao() async {
-    final token = await storage.obterAccessToken();
-
-    if (token == null) {
-      return null;
-    }
-
-    try {
-      return await usuarioRepository.obterUsuarioLogado();
-    } on ApiException {
-      return null;
-    } catch (_) {
-      return null;
-    }
   }
 }

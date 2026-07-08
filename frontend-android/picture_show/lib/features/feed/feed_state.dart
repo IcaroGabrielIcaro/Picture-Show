@@ -1,5 +1,5 @@
 import 'package:picture_show/core/exceptions/api_exception.dart';
-import 'package:picture_show/features/feed/models/publicacao.dart';
+import 'package:picture_show/models/publicacao.dart';
 
 enum FeedStatus { initial, loading, success, error }
 
