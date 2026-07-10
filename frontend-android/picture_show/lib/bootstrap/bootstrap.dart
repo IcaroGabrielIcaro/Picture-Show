@@ -15,10 +15,6 @@ class Bootstrap {
 
     await dependencies.usuarioProvider.restaurarSessao();
 
-    return App(
-      authProvider: dependencies.authProvider,
-      usuarioProvider: dependencies.usuarioProvider,
-      feedProvider: dependencies.feedProvider,
-    );
+    return App(dependencies: dependencies);
   }
 }

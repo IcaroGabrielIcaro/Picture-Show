@@ -23,6 +23,14 @@ class CriarPublicacaoState {
     this.message,
   });
 
+  bool get loading => status == CriarPublicacaoStatus.loading;
+
+  bool get success => status == CriarPublicacaoStatus.success;
+
+  bool get hasError => status == CriarPublicacaoStatus.error;
+
+  bool get possuiImagem => imagem != null;
+
   CriarPublicacaoState copyWith({
     CriarPublicacaoStatus? status,
     File? imagem,

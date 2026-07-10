@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:picture_show/theme/app_spacing.dart';
 
 class CameraView extends StatefulWidget {
   final ValueChanged<File> onImagemSelecionada;
@@ -16,45 +17,140 @@ class CameraView extends StatefulWidget {
 class _CameraViewState extends State<CameraView> {
   CameraController? _controller;
 
-  List<CameraDescription> _cameras = [];
-
   final ImagePicker _picker = ImagePicker();
 
-  bool _loading = true;
+  List<CameraDescription> _cameras = [];
+
+  int _cameraIndex = 0;
+
+  bool _capturando = false;
 
   @override
   void initState() {
     super.initState();
-    _inicializarCamera();
+    _carregarCameras();
   }
 
-  Future<void> _inicializarCamera() async {
-    _cameras = await availableCameras();
+  Future<void> _carregarCameras() async {
+    try {
+      _cameras = await availableCameras();
 
-    _controller = CameraController(_cameras.first, ResolutionPreset.high);
+      if (_cameras.isEmpty) {
+        throw Exception('Nenhuma câmera encontrada.');
+      }
 
-    await _controller!.initialize();
+      final backCameraIndex = _cameras.indexWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.back,
+      );
+
+      await _inicializarCamera(backCameraIndex == -1 ? 0 : backCameraIndex);
+    } catch (_) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Não foi possível inicializar a câmera.')),
+      );
+    }
+  }
+
+  Future<void> _inicializarCamera(int index) async {
+    final antigo = _controller;
+
+    _controller = null;
+
+    if (mounted) {
+      setState(() {});
+    }
+
+    await antigo?.dispose();
+
+    final controller = CameraController(
+      _cameras[index],
+      ResolutionPreset.medium,
+      enableAudio: false,
+    );
+
+    await controller.initialize();
+
+    if (!mounted) {
+      await controller.dispose();
+      return;
+    }
 
     setState(() {
-      _loading = false;
+      _controller = controller;
+      _cameraIndex = index;
     });
   }
 
-  Future<void> _tirarFoto() async {
-    final foto = await _controller!.takePicture();
+  Future<void> _trocarCamera() async {
+    if (_capturando) return;
 
-    widget.onImagemSelecionada(File(foto.path));
+    final atual = _cameras[_cameraIndex];
+
+    final CameraLensDirection novaDirecao =
+        atual.lensDirection == CameraLensDirection.back
+        ? CameraLensDirection.front
+        : CameraLensDirection.back;
+
+    final novoIndex = _cameras.indexWhere(
+      (camera) => camera.lensDirection == novaDirecao,
+    );
+
+    if (novoIndex == -1) return;
+
+    await _inicializarCamera(novoIndex);
+  }
+
+  Future<void> _tirarFoto() async {
+    final controller = _controller;
+
+    if (controller == null || !controller.value.isInitialized || _capturando) {
+      return;
+    }
+
+    setState(() {
+      _capturando = true;
+    });
+
+    try {
+      final foto = await controller.takePicture();
+
+      if (!mounted) return;
+
+      widget.onImagemSelecionada(File(foto.path));
+    } catch (_) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Erro ao capturar a foto.')));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _capturando = false;
+        });
+      }
+    }
   }
 
   Future<void> _abrirGaleria() async {
-    final imagem = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 90,
-    );
+    try {
+      final imagem = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 90,
+      );
 
-    if (imagem == null) return;
+      if (imagem == null || !mounted) return;
 
-    widget.onImagemSelecionada(File(imagem.path));
+      widget.onImagemSelecionada(File(imagem.path));
+    } catch (_) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao selecionar imagem da galeria.')),
+      );
+    }
   }
 
   @override
@@ -65,14 +161,15 @@ class _CameraViewState extends State<CameraView> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
+    final controller = _controller;
+
+    if (controller == null || !controller.value.isInitialized) {
       return const Center(child: CircularProgressIndicator());
     }
 
     return Stack(
       children: [
-        Positioned.fill(child: CameraPreview(_controller!)),
-
+        Positioned.fill(child: CameraPreview(controller)),
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -82,14 +179,15 @@ class _CameraViewState extends State<CameraView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  iconSize: 34,
+                  iconSize: 26,
                   color: Colors.white,
-                  onPressed: _abrirGaleria,
-                  icon: const Icon(Icons.photo_library),
+                  tooltip: 'Galeria',
+                  onPressed: _capturando ? null : _abrirGaleria,
+                  icon: const Icon(Icons.photo_library_outlined),
                 ),
 
                 GestureDetector(
-                  onTap: _tirarFoto,
+                  onTap: _capturando ? null : _tirarFoto,
                   child: Container(
                     width: 74,
                     height: 74,
@@ -97,10 +195,25 @@ class _CameraViewState extends State<CameraView> {
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 5),
                     ),
+                    child: _capturando
+                        ? const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.white,
+                            ),
+                          )
+                        : null,
                   ),
                 ),
 
-                const SizedBox(width: 34),
+                IconButton(
+                  iconSize: 26,
+                  color: Colors.white,
+                  tooltip: 'Alternar câmera',
+                  onPressed: _capturando ? null : _trocarCamera,
+                  icon: const Icon(Icons.cameraswitch_outlined),
+                ),
               ],
             ),
           ),

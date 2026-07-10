@@ -10,6 +10,9 @@ class AppScaffold extends StatelessWidget {
   final Color backgroundColor;
   final bool showNavigation;
 
+  final bool safeAreaTop;
+  final bool safeAreaBottom;
+
   const AppScaffold({
     super.key,
     required this.child,
@@ -17,6 +20,8 @@ class AppScaffold extends StatelessWidget {
     this.appBar,
     this.backgroundColor = AppColors.background,
     this.showNavigation = true,
+    this.safeAreaTop = true,
+    this.safeAreaBottom = false,
   });
 
   @override
@@ -24,7 +29,7 @@ class AppScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: appBar,
-      body: SafeArea(top: appBar == null, bottom: false, child: child),
+      body: SafeArea(top: safeAreaTop, bottom: safeAreaBottom, child: child),
       bottomNavigationBar: showNavigation
           ? AppBottomNavigation(currentTab: currentTab)
           : null,

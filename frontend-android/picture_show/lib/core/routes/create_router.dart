@@ -1,9 +1,16 @@
 import 'package:go_router/go_router.dart';
+import 'package:picture_show/bootstrap/dependencies.dart';
 import 'package:picture_show/features/autenticacao/autenticacao.dart';
+import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
+import 'package:picture_show/features/criar_publicacao/criar_publicacao.dart';
+import 'package:picture_show/features/criar_publicacao/criar_publicacao_provider.dart';
 import 'package:picture_show/features/feed/feed.dart';
-import 'package:picture_show/providers/usuario_provider.dart';
+import 'package:picture_show/features/feed/feed_provider.dart';
+import 'package:provider/provider.dart';
 
-GoRouter createRouter(UsuarioProvider usuarioProvider) {
+GoRouter createRouter(Dependencies dependencies) {
+  final usuarioProvider = dependencies.usuarioProvider;
+
   return GoRouter(
     initialLocation: '/login',
 
@@ -17,7 +24,6 @@ GoRouter createRouter(UsuarioProvider usuarioProvider) {
       final isLogin = location == '/login';
       final isCadastro = location == '/cadastro';
 
-      // Usuário NÃO autenticado
       if (!isAuthenticated) {
         if (isLogin || isCadastro) {
           return null;
@@ -26,7 +32,6 @@ GoRouter createRouter(UsuarioProvider usuarioProvider) {
         return '/login';
       }
 
-      // Usuário autenticado
       if (isLogin || isCadastro) {
         return '/feed';
       }
@@ -38,19 +43,56 @@ GoRouter createRouter(UsuarioProvider usuarioProvider) {
       GoRoute(
         path: '/login',
         name: 'login',
-        builder: (context, state) => const Autenticacao(),
+        builder: (context, state) {
+          return ChangeNotifierProvider(
+            create: (_) => AutenticacaoProvider(
+              dependencies.authService,
+              dependencies.secureStorage,
+              dependencies.usuarioRepository,
+            ),
+            child: const Autenticacao(),
+          );
+        },
       ),
 
       GoRoute(
         path: '/cadastro',
         name: 'cadastro',
-        builder: (context, state) => const Autenticacao(),
+        builder: (context, state) {
+          return ChangeNotifierProvider(
+            create: (_) => AutenticacaoProvider(
+              dependencies.authService,
+              dependencies.secureStorage,
+              dependencies.usuarioRepository,
+            ),
+            child: const Autenticacao(),
+          );
+        },
       ),
 
       GoRoute(
         path: '/feed',
         name: 'feed',
-        builder: (context, state) => const Feed(),
+        builder: (context, state) {
+          return ChangeNotifierProvider(
+            create: (_) =>
+                FeedProvider(dependencies.feedRepository)
+                  ..carregarFeed(),
+            child: const Feed(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/criar-publicacao',
+        name: 'criar-publicacao',
+        builder: (context, state) {
+          return ChangeNotifierProvider(
+            create: (_) =>
+                CriarPublicacaoProvider(dependencies.criarPublicacaoRepository),
+            child: const CriarPublicacao(),
+          );
+        },
       ),
     ],
   );

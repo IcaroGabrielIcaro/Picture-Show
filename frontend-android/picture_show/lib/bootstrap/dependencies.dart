@@ -1,8 +1,8 @@
 import 'package:picture_show/core/network/dio_client.dart';
 import 'package:picture_show/core/storage/secure_storage_service.dart';
-import 'package:picture_show/features/autenticacao/autenticacao_provider.dart';
 import 'package:picture_show/features/autenticacao/autenticacao_service.dart';
-import 'package:picture_show/features/feed/feed_provider.dart';
+import 'package:picture_show/features/criar_publicacao/criar_publicacao_repository.dart';
+import 'package:picture_show/features/criar_publicacao/criar_publicacao_service.dart';
 import 'package:picture_show/features/feed/feed_repository.dart';
 import 'package:picture_show/features/feed/feed_service.dart';
 import 'package:picture_show/providers/usuario_provider.dart';
@@ -18,13 +18,13 @@ class Dependencies {
 
   late final AutenticacaoService authService;
   late final FeedService feedService;
+  late final CriarPublicacaoService criarPublicacaoService;
 
   late final UsuarioRepository usuarioRepository;
   late final FeedRepository feedRepository;
+  late final CriarPublicacaoRepository criarPublicacaoRepository;
 
   late final UsuarioProvider usuarioProvider;
-  late final AutenticacaoProvider authProvider;
-  late final FeedProvider feedProvider;
 
   static Future<Dependencies> create() async {
     final d = Dependencies._();
@@ -41,6 +41,7 @@ class Dependencies {
     // Services
     d.authService = AutenticacaoService(dio);
     d.feedService = FeedService(dio);
+    d.criarPublicacaoService = CriarPublicacaoService(dio);
 
     // Repositories
     d.usuarioRepository = UsuarioRepository(
@@ -50,16 +51,12 @@ class Dependencies {
 
     d.feedRepository = FeedRepository(api: d.feedService);
 
-    // Providers
-    d.usuarioProvider = UsuarioProvider(d.usuarioRepository);
-
-    d.authProvider = AutenticacaoProvider(
-      d.authService,
-      d.secureStorage,
-      d.usuarioRepository,
+    d.criarPublicacaoRepository = CriarPublicacaoRepository(
+      api: d.criarPublicacaoService,
     );
 
-    d.feedProvider = FeedProvider(d.feedRepository);
+    // Providers
+    d.usuarioProvider = UsuarioProvider(d.usuarioRepository);
 
     return d;
   }
