@@ -22,6 +22,10 @@ class ApiConfig(AppConfig):
             "picture-show-firebase-service.json"
         )
 
+        if not os.path.exists(caminho_credenciais):
+            print("Credenciais do Firebase não encontradas. Firebase não inicializado.")
+            return
+
         cred = credentials.Certificate(caminho_credenciais)
         firebase_admin.initialize_app(cred)
 
