@@ -7,3 +7,4 @@ drf-spectacular
 pillow
 gunicorn
 firebase-admin
+pylint==4.1.2
