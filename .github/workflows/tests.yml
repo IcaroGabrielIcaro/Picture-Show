@@ -2,16 +2,7 @@ name: Django Tests
 
 on:
   push:
-    branches:
-      - main
-      - master
-      - develop
-
   pull_request:
-    branches:
-      - main
-      - master
-      - develop
 
 jobs:
   tests:
@@ -44,4 +35,4 @@ jobs:
 
       - name: Executar testes
         run: |
-          python manage.py test --verbosity=2
+          python -W error::DeprecationWarning manage.py test --verbosity=2
