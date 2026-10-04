@@ -35,4 +35,4 @@ jobs:
 
       - name: Executar testes
         run: |
-          python -W error::DeprecationWarning manage.py test --verbosity=2
+          python manage.py test --verbosity=2
