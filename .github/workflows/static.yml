@@ -1,15 +1,15 @@
-name: Django Tests
+name: Análise Estática - Depreciações
 
 on:
   push:
   pull_request:
 
 jobs:
-  tests:
+  pylint-deprecation:
     runs-on: ubuntu-latest
 
-    defaults: 
-      run: 
+    defaults:
+      run:
         working-directory: backend-python/picture_show
 
     steps:
@@ -26,13 +26,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Criar diretório do banco
-        run: mkdir -p data
-
-      - name: Executar migrações
+      - name: Verificar código depreciado
         run: |
-          python manage.py migrate
-
-      - name: Executar testes
-        run: |
-          python manage.py test --verbosity=2
+          python -m pylint \
+            --disable=all \
+            --enable=deprecated-module,deprecated-method,deprecated-argument,deprecated-class,deprecated-decorator,deprecated-attribute \
+            api picture_show
