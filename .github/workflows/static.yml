@@ -1,4 +1,4 @@
-name: Análise Estática - Depreciações
+name: Análise Estática
 
 on:
   push:
@@ -32,3 +32,7 @@ jobs:
             --disable=all \
             --enable=deprecated-module,deprecated-method,deprecated-argument,deprecated-class,deprecated-decorator,deprecated-attribute \
             api picture_show
+
+      - name: Verificar código com Ruff
+        run: |
+          python -m ruff check .
