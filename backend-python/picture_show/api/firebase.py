@@ -10,11 +10,10 @@ class FirebaseService:
         mensagem = messaging.MulticastMessage(
             notification=messaging.Notification(title=titulo, body=corpo),
             data=dados or {},
-            tokens=tokens
+            tokens=tokens,
         )
 
         return messaging.send_multicast(mensagem)
-    
 
     @staticmethod
     def novo_seguidor(usuario_destino, usuario_origem):
@@ -27,12 +26,8 @@ class FirebaseService:
             tokens,
             titulo,
             corpo,
-            dados={
-                "tipo": "seguimento",
-                "usuario_id": str(usuario_origem.id)
-            }
+            dados={"tipo": "seguimento", "usuario_id": str(usuario_origem.id)},
         )
-
 
     @staticmethod
     def nova_reacao(usuario_destino, usuario_origem, publicacao, tipo):
@@ -53,10 +48,9 @@ class FirebaseService:
             dados={
                 "tipo": "reacao",
                 "publicacao_id": str(publicacao.id),
-                "usuario_id": str(usuario_origem.id)
-            }
+                "usuario_id": str(usuario_origem.id),
+            },
         )
-
 
     @staticmethod
     def novo_comentario(usuario_destino, usuario_origem, publicacao):
@@ -72,6 +66,6 @@ class FirebaseService:
             dados={
                 "tipo": "comentario",
                 "publicacao_id": str(publicacao.id),
-                "usuario_id": str(usuario_origem.id)
-            }
+                "usuario_id": str(usuario_origem.id),
+            },
         )

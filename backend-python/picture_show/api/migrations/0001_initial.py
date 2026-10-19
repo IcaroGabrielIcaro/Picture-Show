@@ -8,87 +8,291 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
+        ("auth", "0012_alter_user_first_name_max_length"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Usuario',
+            name="Usuario",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('username', models.CharField(error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, unique=True, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='username')),
-                ('email', models.EmailField(blank=True, max_length=254, verbose_name='email address')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('nome', models.CharField(max_length=30)),
-                ('bio', models.TextField(blank=True, default='')),
-                ('imagem', models.ImageField(blank=True, null=True, upload_to='api/static/')),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
+                (
+                    "is_superuser",
+                    models.BooleanField(
+                        default=False,
+                        help_text=(
+                            "Designates that this user has all permissions without "
+                            "explicitly assigning them."
+                        ),
+                        verbose_name="superuser status",
+                    ),
+                ),
+                (
+                    "username",
+                    models.CharField(
+                        error_messages={
+                            "unique": "A user with that username already exists."
+                        },
+                        help_text=(
+                            "Required. 150 characters or fewer. Letters, digits and "
+                            "@/./+/-/_ only."
+                        ),
+                        max_length=150,
+                        unique=True,
+                        validators=[
+                            django.contrib.auth.validators.UnicodeUsernameValidator()
+                        ],
+                        verbose_name="username",
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True, max_length=254, verbose_name="email address"
+                    ),
+                ),
+                (
+                    "is_staff",
+                    models.BooleanField(
+                        default=False,
+                        help_text=(
+                            "Designates whether the user can log into this admin site."
+                        ),
+                        verbose_name="staff status",
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(
+                        default=True,
+                        help_text=(
+                            "Designates whether this user should be treated as active. "
+                            "Unselect this instead of deleting accounts."
+                        ),
+                        verbose_name="active",
+                    ),
+                ),
+                (
+                    "date_joined",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="date joined"
+                    ),
+                ),
+                ("nome", models.CharField(max_length=30)),
+                ("bio", models.TextField(blank=True, default="")),
+                (
+                    "imagem",
+                    models.ImageField(blank=True, null=True, upload_to="api/static/"),
+                ),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text=(
+                            "The groups this user belongs to. A user will get all "
+                            "permissions granted to each of their groups."
+                        ),
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.group",
+                        verbose_name="groups",
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Specific permissions for this user.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.permission",
+                        verbose_name="user permissions",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'user',
-                'verbose_name_plural': 'users',
-                'abstract': False,
+                "verbose_name": "user",
+                "verbose_name_plural": "users",
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Publicacao',
+            name="Publicacao",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('descricao', models.CharField(max_length=1200)),
-                ('imagem', models.ImageField(blank=True, null=True, upload_to='api/static/')),
-                ('publicado_em', models.DateTimeField(default=django.utils.timezone.now)),
-                ('autor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='publicacoes', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("descricao", models.CharField(max_length=1200)),
+                (
+                    "imagem",
+                    models.ImageField(blank=True, null=True, upload_to="api/static/"),
+                ),
+                (
+                    "publicado_em",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "autor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="publicacoes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-publicado_em'],
+                "ordering": ["-publicado_em"],
             },
         ),
         migrations.CreateModel(
-            name='Comentario',
+            name="Comentario",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('mensagem', models.CharField(max_length=400)),
-                ('publicado_em', models.DateTimeField(default=django.utils.timezone.now)),
-                ('autor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comentarios', to=settings.AUTH_USER_MODEL)),
-                ('publicacao', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comentarios', to='api.publicacao')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("mensagem", models.CharField(max_length=400)),
+                (
+                    "publicado_em",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "autor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comentarios",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "publicacao",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comentarios",
+                        to="api.publicacao",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-publicado_em'],
+                "ordering": ["-publicado_em"],
             },
         ),
         migrations.CreateModel(
-            name='Reacao',
+            name="Reacao",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tipo', models.CharField(choices=[('LIKE', 'Like'), ('DISLIKE', 'Dislike')], max_length=10)),
-                ('criado_em', models.DateTimeField(auto_now_add=True)),
-                ('publicacao', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reacoes', to='api.publicacao')),
-                ('usuario', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reacoes', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "tipo",
+                    models.CharField(
+                        choices=[("LIKE", "Like"), ("DISLIKE", "Dislike")],
+                        max_length=10,
+                    ),
+                ),
+                ("criado_em", models.DateTimeField(auto_now_add=True)),
+                (
+                    "publicacao",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reacoes",
+                        to="api.publicacao",
+                    ),
+                ),
+                (
+                    "usuario",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reacoes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'constraints': [models.UniqueConstraint(fields=('usuario', 'publicacao'), name='unique_reacao')],
+                "constraints": [
+                    models.UniqueConstraint(
+                        fields=("usuario", "publicacao"), name="unique_reacao"
+                    )
+                ],
             },
         ),
         migrations.CreateModel(
-            name='Seguidor',
+            name="Seguidor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('criado_em', models.DateTimeField(auto_now_add=True)),
-                ('seguidor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='usuarios_que_sigo', to=settings.AUTH_USER_MODEL)),
-                ('seguindo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='meus_seguidores', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("criado_em", models.DateTimeField(auto_now_add=True)),
+                (
+                    "seguidor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="usuarios_que_sigo",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "seguindo",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="meus_seguidores",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'constraints': [models.UniqueConstraint(fields=('seguidor', 'seguindo'), name='unique_follow'), models.CheckConstraint(condition=models.Q(('seguidor', models.F('seguindo')), _negated=True), name='cannot_follow_yourself')],
+                "constraints": [
+                    models.UniqueConstraint(
+                        fields=("seguidor", "seguindo"), name="unique_follow"
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(
+                            ("seguidor", models.F("seguindo")), _negated=True
+                        ),
+                        name="cannot_follow_yourself",
+                    ),
+                ],
             },
         ),
     ]

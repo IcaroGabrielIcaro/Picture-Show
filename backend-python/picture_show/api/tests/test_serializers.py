@@ -5,15 +5,10 @@ from django.test import RequestFactory
 
 
 class UsuarioCadastroSerializerTest(TestCase):
-
     def test_password_too_short(self):
 
         serializer = UsuarioCadastroSerializer(
-            data={
-                "username": "icaro",
-                "nome": "Icaro",
-                "senha": "123"
-            }
+            data={"username": "icaro", "nome": "Icaro", "senha": "123"}
         )
 
         self.assertFalse(serializer.is_valid())
@@ -22,10 +17,7 @@ class UsuarioCadastroSerializerTest(TestCase):
     def test_username_is_required(self):
 
         serializer = UsuarioCadastroSerializer(
-            data={
-                "nome": "Icaro",
-                "senha": "123456"
-            }
+            data={"nome": "Icaro", "senha": "123456"}
         )
 
         self.assertFalse(serializer.is_valid())
@@ -33,10 +25,7 @@ class UsuarioCadastroSerializerTest(TestCase):
     def test_nome_is_required(self):
 
         serializer = UsuarioCadastroSerializer(
-            data={
-                "username": "icaro",
-                "senha": "123456"
-            }
+            data={"username": "icaro", "senha": "123456"}
         )
 
         self.assertFalse(serializer.is_valid())
@@ -44,43 +33,24 @@ class UsuarioCadastroSerializerTest(TestCase):
     def test_create_hashes_password(self):
 
         serializer = UsuarioCadastroSerializer(
-            data={
-                "username": "icaro",
-                "nome": "Icaro",
-                "senha": "123456"
-            }
+            data={"username": "icaro", "nome": "Icaro", "senha": "123456"}
         )
 
         self.assertTrue(serializer.is_valid())
 
         user = serializer.save()
 
-        self.assertTrue(
-            user.check_password("123456")
-        )
+        self.assertTrue(user.check_password("123456"))
 
     def test_likes_count(self):
 
-        autor = Usuario.objects.create_user(
-            username="autor",
-            password="123456"
-        )
+        autor = Usuario.objects.create_user(username="autor", password="123456")
 
-        user = Usuario.objects.create_user(
-            username="user",
-            password="123456"
-        )
+        user = Usuario.objects.create_user(username="user", password="123456")
 
-        post = Publicacao.objects.create(
-            descricao="teste",
-            autor=autor
-        )
+        post = Publicacao.objects.create(descricao="teste", autor=autor)
 
-        Reacao.objects.create(
-            usuario=user,
-            publicacao=post,
-            tipo=Reacao.LIKE
-        )
+        Reacao.objects.create(usuario=user, publicacao=post, tipo=Reacao.LIKE)
 
         data = PublicacaoSerializer(post).data
 
@@ -88,21 +58,11 @@ class UsuarioCadastroSerializerTest(TestCase):
 
     def test_comment_count(self):
 
-        autor = Usuario.objects.create_user(
-            username="autor",
-            password="123456"
-        )
+        autor = Usuario.objects.create_user(username="autor", password="123456")
 
-        post = Publicacao.objects.create(
-            descricao="teste",
-            autor=autor
-        )
+        post = Publicacao.objects.create(descricao="teste", autor=autor)
 
-        Comentario.objects.create(
-            autor=autor,
-            publicacao=post,
-            mensagem="oi"
-        )
+        Comentario.objects.create(autor=autor, publicacao=post, mensagem="oi")
 
         data = PublicacaoSerializer(post).data
 
@@ -110,15 +70,9 @@ class UsuarioCadastroSerializerTest(TestCase):
 
     def test_minha_reacao_without_request(self):
 
-        autor = Usuario.objects.create_user(
-            username="autor",
-            password="123456"
-        )
+        autor = Usuario.objects.create_user(username="autor", password="123456")
 
-        post = Publicacao.objects.create(
-            descricao="teste",
-            autor=autor
-        )
+        post = Publicacao.objects.create(descricao="teste", autor=autor)
 
         data = PublicacaoSerializer(post).data
 
@@ -127,30 +81,17 @@ class UsuarioCadastroSerializerTest(TestCase):
     def test_bio_null(self):
 
         serializer = UsuarioCadastroSerializer(
-            data={
-                "username": "icaro",
-                "nome": "Icaro",
-                "senha": "123456",
-                "bio": None
-            }
+            data={"username": "icaro", "nome": "Icaro", "senha": "123456", "bio": None}
         )
 
         self.assertFalse(serializer.is_valid())
 
-    
     def test_duplicate_username(self):
 
-        Usuario.objects.create_user(
-            username="icaro",
-            password="123456"
-        )
+        Usuario.objects.create_user(username="icaro", password="123456")
 
         serializer = UsuarioCadastroSerializer(
-            data={
-                "username": "icaro",
-                "nome": "Outro",
-                "senha": "123456"
-            }
+            data={"username": "icaro", "nome": "Outro", "senha": "123456"}
         )
 
         self.assertFalse(serializer.is_valid())
@@ -159,27 +100,16 @@ class UsuarioCadastroSerializerTest(TestCase):
     def test_empty_bio_is_valid(self):
 
         serializer = UsuarioCadastroSerializer(
-            data={
-                "username": "icaro",
-                "nome": "Icaro",
-                "senha": "123456",
-                "bio": ""
-            }
+            data={"username": "icaro", "nome": "Icaro", "senha": "123456", "bio": ""}
         )
 
         self.assertTrue(serializer.is_valid())
 
     def test_likes_count_zero(self):
 
-        autor = Usuario.objects.create_user(
-            username="autor",
-            password="123456"
-        )
+        autor = Usuario.objects.create_user(username="autor", password="123456")
 
-        post = Publicacao.objects.create(
-            descricao="teste",
-            autor=autor
-        )
+        post = Publicacao.objects.create(descricao="teste", autor=autor)
 
         data = PublicacaoSerializer(post).data
 
@@ -187,15 +117,9 @@ class UsuarioCadastroSerializerTest(TestCase):
 
     def test_comment_count_zero(self):
 
-        autor = Usuario.objects.create_user(
-            username="autor",
-            password="123456"
-        )
+        autor = Usuario.objects.create_user(username="autor", password="123456")
 
-        post = Publicacao.objects.create(
-            descricao="teste",
-            autor=autor
-        )
+        post = Publicacao.objects.create(descricao="teste", autor=autor)
 
         data = PublicacaoSerializer(post).data
 
@@ -205,36 +129,17 @@ class UsuarioCadastroSerializerTest(TestCase):
 
         factory = RequestFactory()
 
-        autor = Usuario.objects.create_user(
-            username="autor",
-            password="123456"
-        )
+        autor = Usuario.objects.create_user(username="autor", password="123456")
 
-        user = Usuario.objects.create_user(
-            username="user",
-            password="123456"
-        )
+        user = Usuario.objects.create_user(username="user", password="123456")
 
-        post = Publicacao.objects.create(
-            descricao="teste",
-            autor=autor
-        )
+        post = Publicacao.objects.create(descricao="teste", autor=autor)
 
-        Reacao.objects.create(
-            usuario=user,
-            publicacao=post,
-            tipo=Reacao.LIKE
-        )
+        Reacao.objects.create(usuario=user, publicacao=post, tipo=Reacao.LIKE)
 
         request = factory.get("/")
         request.user = user
 
-        data = PublicacaoSerializer(
-            post,
-            context={"request": request}
-        ).data
+        data = PublicacaoSerializer(post, context={"request": request}).data
 
-        self.assertEqual(
-            data["minha_reacao"],
-            Reacao.LIKE
-        )
+        self.assertEqual(data["minha_reacao"], Reacao.LIKE)

@@ -2,21 +2,24 @@ from rest_framework import serializers
 from .models import Usuario, Seguidor, Comentario, Publicacao, Reacao
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 class LoginSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
 
-        token['username'] = user.username
-        token['nome'] = user.nome
-        token['email'] = user.email
-        token['admin'] = user.is_superuser
+        token["username"] = user.username
+        token["nome"] = user.nome
+        token["email"] = user.email
+        token["admin"] = user.is_superuser
 
         return token
-    
+
     def validate(self, attrs):
         data = super().validate(attrs)
-        data["usuario"] = UsuarioSerializer(self.user, context={"request": self.context.get("request")}).data
+        data["usuario"] = UsuarioSerializer(
+            self.user, context={"request": self.context.get("request")}
+        ).data
 
         return data
 
@@ -42,7 +45,17 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = ("id", "username", "nome", "bio", "imagem", "seguidores", "seguindo", "publicacoes", "eu_sigo")
+        fields = (
+            "id",
+            "username",
+            "nome",
+            "bio",
+            "imagem",
+            "seguidores",
+            "seguindo",
+            "publicacoes",
+            "eu_sigo",
+        )
 
     def get_eu_sigo(self, obj):
         request = self.context.get("request")
@@ -54,10 +67,9 @@ class UsuarioSerializer(serializers.ModelSerializer):
             return None
 
         return Seguidor.objects.filter(seguidor=request.user, seguindo=obj).exists()
-    
+
 
 class UsuarioResumoSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Usuario
         fields = ("id", "username", "nome", "imagem")
@@ -80,7 +92,17 @@ class PublicacaoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Publicacao
-        fields = ("id", "descricao", "imagem", "autor", "likes", "dislikes", "comentarios", "minha_reacao", "publicado_em")
+        fields = (
+            "id",
+            "descricao",
+            "imagem",
+            "autor",
+            "likes",
+            "dislikes",
+            "comentarios",
+            "minha_reacao",
+            "publicado_em",
+        )
 
     def get_likes(self, obj):
         return obj.reacoes.filter(tipo=Reacao.LIKE).count()
@@ -107,7 +129,7 @@ class PublicacaoSerializer(serializers.ModelSerializer):
             return None
 
         return reacao.tipo
-    
+
 
 class RegistroTokenSerializer(serializers.Serializer):
     token = serializers.CharField()
