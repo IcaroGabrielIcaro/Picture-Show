@@ -1,4 +1,4 @@
-from rest_framework import (status, views, viewsets, mixins)
+from rest_framework import status, views, viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -7,9 +7,20 @@ from drf_spectacular.utils import extend_schema
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .firebase import FirebaseService
 
-from .models import (Usuario, Publicacao, Comentario, Seguidor, Reacao, Dispositivo)
-from .serializers import (LoginSerializer, UsuarioCadastroSerializer, UsuarioSerializer, PublicacaoSerializer, ComentarioSerializer, RegistroTokenSerializer)
-from .permissions import (ReadOnlyOrAuthenticated, IsAuthorOrStaffOrReadOnly, IsSelfOrReadOnly)
+from .models import Usuario, Publicacao, Comentario, Seguidor, Reacao, Dispositivo
+from .serializers import (
+    LoginSerializer,
+    UsuarioCadastroSerializer,
+    UsuarioSerializer,
+    PublicacaoSerializer,
+    ComentarioSerializer,
+    RegistroTokenSerializer,
+)
+from .permissions import (
+    ReadOnlyOrAuthenticated,
+    IsAuthorOrStaffOrReadOnly,
+    IsSelfOrReadOnly,
+)
 
 
 @extend_schema(tags=["autenticação"])
@@ -28,7 +39,7 @@ class SignupView(views.APIView):
     @extend_schema(
         tags=["autenticação"],
         request=UsuarioCadastroSerializer,
-        responses={status.HTTP_201_CREATED: UsuarioSerializer}
+        responses={status.HTTP_201_CREATED: UsuarioSerializer},
     )
     def post(self, request):
         serializer = UsuarioCadastroSerializer(data=request.data)
@@ -37,29 +48,35 @@ class SignupView(views.APIView):
             usuario = serializer.save()
 
             return Response(
-                UsuarioSerializer(
-                    usuario,
-                    context={"request": request}
-                ).data,
-                status=status.HTTP_201_CREATED
+                UsuarioSerializer(usuario, context={"request": request}).data,
+                status=status.HTTP_201_CREATED,
             )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UsuarioViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+class UsuarioViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    parser_classes = [MultiPartParser,FormParser]
+    parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsSelfOrReadOnly]
 
-    @action(detail=True,methods=["post"])
+    @action(detail=True, methods=["post"])
     def seguir(self, request, pk=None):
         usuario = self.get_object()
-        _, created = Seguidor.objects.get_or_create(seguidor=request.user, seguindo=usuario)
+        _, created = Seguidor.objects.get_or_create(
+            seguidor=request.user, seguindo=usuario
+        )
 
         if created:
-            FirebaseService.novo_seguidor(usuario_destino=usuario, usuario_origem=request.user)
+            FirebaseService.novo_seguidor(
+                usuario_destino=usuario, usuario_origem=request.user
+            )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -68,7 +85,7 @@ class UsuarioViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Up
         usuario = self.get_object()
         Seguidor.objects.filter(seguidor=request.user, seguindo=usuario).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
     def get_permissions(self):
         if self.action in ["seguir", "deixar_de_seguir"]:
             return [ReadOnlyOrAuthenticated()]
@@ -77,21 +94,15 @@ class UsuarioViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Up
 
     @extend_schema(tags=["usuarios"], responses=UsuarioSerializer)
     @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
-    def me(self, request): 
+    def me(self, request):
         serializer = self.get_serializer(request.user, context={"request": request})
 
         return Response(serializer.data)
 
 
 class PublicacaoViewSet(viewsets.ModelViewSet):
-
-    queryset = (
-        Publicacao.objects
-        .select_related("autor")
-        .prefetch_related(
-            "comentarios",
-            "reacoes"
-        )
+    queryset = Publicacao.objects.select_related("autor").prefetch_related(
+        "comentarios", "reacoes"
     )
 
     serializer_class = PublicacaoSerializer
@@ -114,14 +125,11 @@ class PublicacaoViewSet(viewsets.ModelViewSet):
 
         if tipo not in (Reacao.LIKE, Reacao.DISLIKE):
             return Response(
-                {"erro": "Tipo inválido."},
-                status=status.HTTP_400_BAD_REQUEST
+                {"erro": "Tipo inválido."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         reacao, _ = Reacao.objects.update_or_create(
-            usuario=request.user,
-            publicacao=publicacao,
-            defaults={"tipo": tipo}
+            usuario=request.user, publicacao=publicacao, defaults={"tipo": tipo}
         )
 
         if publicacao.autor != request.user:
@@ -129,7 +137,7 @@ class PublicacaoViewSet(viewsets.ModelViewSet):
                 usuario_destino=publicacao.autor,
                 usuario_origem=request.user,
                 publicacao=publicacao,
-                tipo=reacao.tipo
+                tipo=reacao.tipo,
             )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -139,7 +147,7 @@ class PublicacaoViewSet(viewsets.ModelViewSet):
         publicacao = self.get_object()
         Reacao.objects.filter(usuario=request.user, publicacao=publicacao).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
     def get_permissions(self):
 
         if self.action in ["reagir", "remover_reacao"]:
@@ -149,25 +157,20 @@ class PublicacaoViewSet(viewsets.ModelViewSet):
 
 
 class ComentarioViewSet(viewsets.ModelViewSet):
-
-    queryset = (
-        Comentario.objects
-        .select_related("autor")
-        .select_related("publicacao")
-    )
+    queryset = Comentario.objects.select_related("autor").select_related("publicacao")
 
     serializer_class = ComentarioSerializer
 
     permission_classes = [ReadOnlyOrAuthenticated, IsAuthorOrStaffOrReadOnly]
 
     def perform_create(self, serializer):
-        comentario =  serializer.save(autor=self.request.user)
+        comentario = serializer.save(autor=self.request.user)
 
         if comentario.publicacao.autor != self.request.user:
             FirebaseService.novo_comentario(
                 usuario_destino=comentario.publicacao.autor,
                 usuario_origem=self.request.user,
-                publicacao=comentario.publicacao
+                publicacao=comentario.publicacao,
             )
 
 
@@ -181,13 +184,9 @@ class RegistroTokenView(views.APIView):
         serializer.is_valid(raise_exception=True)
 
         Dispositivo.objects.update_or_create(
-            token=serializer.validated_data["token"],
-            defaults={
-                "usuario": request.user
-            }
+            token=serializer.validated_data["token"], defaults={"usuario": request.user}
         )
 
         return Response(
-            {"mensagem": "Token registrado com sucesso."},
-            status=status.HTTP_200_OK
+            {"mensagem": "Token registrado com sucesso."}, status=status.HTTP_200_OK
         )

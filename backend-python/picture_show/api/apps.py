@@ -19,7 +19,7 @@ class ApiConfig(AppConfig):
             settings.BASE_DIR,
             "picture_show",
             "firebase",
-            "picture-show-firebase-service.json"
+            "picture-show-firebase-service.json",
         )
 
         if not os.path.exists(caminho_credenciais):
