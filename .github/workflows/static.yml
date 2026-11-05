@@ -39,6 +39,7 @@ jobs:
             --disable=all \
             --enable=duplicate-code \
             --min-similarity-lines=4 \
+            --ignore-paths=".*[\\/]migrations[\\/].*" \
             api picture_show
 
       - name: Verificar código com Ruff
