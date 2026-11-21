@@ -45,3 +45,20 @@ jobs:
       - name: Verificar código com Ruff
         run: |
           python -m ruff check .
+
+      - name: Instalar Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
+      - name: Gerar diagrama UML
+        run: |
+          mkdir -p diagrams
+          pyreverse -o png -p picture_show --output-directory diagrams api.models
+
+      - name: Disponibilizar diagramas
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagramas-uml
+          path: |
+            backend-python/picture_show/diagrams/
