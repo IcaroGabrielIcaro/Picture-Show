@@ -55,6 +55,8 @@ class Usuario(AbstractUser):
 
 
 class Publicacao(models.Model):
+    # pylint: disable=too-few-public-methods
+
     descricao = models.CharField(max_length=1200)
     imagem = models.ImageField(upload_to="publicacoes/", null=True, blank=True)
     autor = models.ForeignKey(
@@ -70,6 +72,8 @@ class Publicacao(models.Model):
 
 
 class Comentario(models.Model):
+    # pylint: disable=too-few-public-methods
+
     autor = models.ForeignKey(
         Usuario, on_delete=models.CASCADE, related_name="comentarios"
     )
@@ -82,8 +86,13 @@ class Comentario(models.Model):
     class Meta:
         ordering = ["-publicado_em"]
 
+    def __str__(self):
+        return f"Comentário #{self.id} - {self.autor.username}"
+
 
 class Seguidor(models.Model):
+    # pylint: disable=too-few-public-methods
+
     seguidor = models.ForeignKey(
         Usuario, on_delete=models.CASCADE, related_name="usuarios_que_sigo"
     )
@@ -106,6 +115,8 @@ class Seguidor(models.Model):
 
 
 class Reacao(models.Model):
+    # pylint: disable=too-few-public-methods
+    
     LIKE = "LIKE"
     DISLIKE = "DISLIKE"
 
