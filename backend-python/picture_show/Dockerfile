@@ -9,11 +9,16 @@ RUN pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 RUN useradd --create-home appuser
 
 RUN mkdir -p /app/data /app/static /app/staticfiles /app/media \
-    && chown -R appuser:appuser /app
+    && chown -R appuser:appuser /app/data /app/static /app/staticfiles /app/media
 
-COPY --chown=appuser:appuser manage.py .
-COPY --chown=appuser:appuser picture_show/ picture_show/
-COPY --chown=appuser:appuser api/ api/
+COPY manage.py .
+COPY picture_show/ picture_show/
+COPY api/ api/
+
+RUN chown -R root:root /app \
+    && chmod -R a-w /app \
+    && chmod -R a+rX /app \
+    && chown -R appuser:appuser /app/data /app/static /app/staticfiles /app/media
 
 USER appuser
 
