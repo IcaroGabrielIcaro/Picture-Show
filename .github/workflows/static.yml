@@ -57,7 +57,7 @@ jobs:
           pyreverse -o png -p picture_show --output-directory diagrams api.models
 
       - name: Disponibilizar diagramas
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: diagramas-uml
           path: |
