@@ -62,3 +62,11 @@ jobs:
           name: diagramas-uml
           path: |
             backend-python/picture_show/diagrams/
+
+      - name: Verificar Code Smells
+        run: |
+          python -m pylint \
+            --disable=all \
+            --enable=R \
+            --ignore-paths=".*[\\/]migrations[\\/].*" \
+            api picture_show

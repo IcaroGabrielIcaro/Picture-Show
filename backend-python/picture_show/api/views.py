@@ -61,6 +61,8 @@ class UsuarioViewSet(
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
+    # pylint: disable=too-many-ancestors
+
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
     parser_classes = [MultiPartParser, FormParser]
@@ -101,6 +103,8 @@ class UsuarioViewSet(
 
 
 class PublicacaoViewSet(viewsets.ModelViewSet):
+    # pylint: disable=too-many-ancestors
+
     queryset = Publicacao.objects.select_related("autor").prefetch_related(
         "comentarios", "reacoes"
     )
@@ -157,6 +161,8 @@ class PublicacaoViewSet(viewsets.ModelViewSet):
 
 
 class ComentarioViewSet(viewsets.ModelViewSet):
+    # pylint: disable=too-many-ancestors
+
     queryset = Comentario.objects.select_related("autor").select_related("publicacao")
 
     serializer_class = ComentarioSerializer

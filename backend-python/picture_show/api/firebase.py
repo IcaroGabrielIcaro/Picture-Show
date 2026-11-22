@@ -5,7 +5,7 @@ class FirebaseService:
     @staticmethod
     def _enviar_para_tokens(tokens, titulo, corpo, dados=None):
         if not tokens:
-            return
+            return None
 
         mensagem = messaging.MulticastMessage(
             notification=messaging.Notification(title=titulo, body=corpo),

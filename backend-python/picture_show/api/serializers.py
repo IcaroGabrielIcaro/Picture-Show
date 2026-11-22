@@ -25,6 +25,8 @@ class LoginSerializer(TokenObtainPairSerializer):
 
 
 class UsuarioCadastroSerializer(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+
     senha = serializers.CharField(write_only=True, min_length=6)
     imagem = serializers.ImageField(required=False)
 
@@ -38,6 +40,8 @@ class UsuarioCadastroSerializer(serializers.ModelSerializer):
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+
     seguidores = serializers.IntegerField(source="total_seguidores", read_only=True)
     seguindo = serializers.IntegerField(source="total_seguindo", read_only=True)
     publicacoes = serializers.IntegerField(source="total_publicacoes", read_only=True)
@@ -70,12 +74,16 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
 
 class UsuarioResumoSerializer(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+
     class Meta:
         model = Usuario
         fields = ("id", "username", "nome", "imagem")
 
 
 class ComentarioSerializer(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+
     autor = UsuarioResumoSerializer(read_only=True)
 
     class Meta:
@@ -84,6 +92,8 @@ class ComentarioSerializer(serializers.ModelSerializer):
 
 
 class PublicacaoSerializer(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+
     autor = UsuarioResumoSerializer(read_only=True)
     likes = serializers.SerializerMethodField()
     dislikes = serializers.SerializerMethodField()
