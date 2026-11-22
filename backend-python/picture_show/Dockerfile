@@ -11,7 +11,9 @@ RUN useradd --create-home appuser
 RUN mkdir -p /app/data /app/static /app/staticfiles /app/media \
     && chown -R appuser:appuser /app
 
-COPY --chown=appuser:appuser . .
+COPY --chown=appuser:appuser manage.py .
+COPY --chown=appuser:appuser picture_show/ picture_show/
+COPY --chown=appuser:appuser api/ api/
 
 USER appuser
 
