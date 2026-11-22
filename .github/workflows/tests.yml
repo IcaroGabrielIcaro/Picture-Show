@@ -12,6 +12,9 @@ jobs:
       run: 
         working-directory: backend-python/picture_show
 
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v7
