@@ -93,7 +93,7 @@ class ComentarioSerializer(serializers.ModelSerializer):
 
 class PublicacaoSerializer(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
-    
+
     autor = UsuarioResumoSerializer(read_only=True)
     likes = serializers.SerializerMethodField()
     dislikes = serializers.SerializerMethodField()

@@ -62,7 +62,7 @@ class UsuarioViewSet(
     viewsets.GenericViewSet,
 ):
     # pylint: disable=too-many-ancestors
-    
+
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
     parser_classes = [MultiPartParser, FormParser]

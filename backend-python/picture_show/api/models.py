@@ -116,7 +116,7 @@ class Seguidor(models.Model):
 
 class Reacao(models.Model):
     # pylint: disable=too-few-public-methods
-    
+
     LIKE = "LIKE"
     DISLIKE = "DISLIKE"
 
